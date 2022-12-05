@@ -1,0 +1,4 @@
+.separator {
+    border-left:1px solid var(--color-third);
+    border-right:1px solid var(--color-dark);
+}

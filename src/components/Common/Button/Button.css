@@ -1,0 +1,73 @@
+.button {
+    display: inline-flex;
+    align-content: center;
+    justify-content: center;
+    font-size: 0.9em;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    user-select: none;
+    outline:none;
+    transition: .2s color;
+    border:1px solid transparent;
+    color:var(--color-text);
+    padding: calc(var(--s) + 1px) var(--m);
+}
+
+.button > span {
+    display: inline-flex;
+    gap: var(--s);
+    align-content: center;
+    justify-content: center;
+}
+
+.button.text {
+    background: none;
+}
+
+.button.outlined {
+    box-sizing: border-box;
+    background: none;
+    padding: calc(var(--s) + 1px) var(--m);
+    color: var(--color-text-purple);
+    border:1px solid var(--color-purple-active);
+}
+
+.button.outlined.purple {
+    color: var(--color-text-purple);
+    border:1px solid var(--color-purple-active);
+}
+
+.button.outlined.white {
+    color: var(--color-text);
+    border:1px solid var(--color-text);
+}
+
+
+.button.primary {
+    color:#fff1fd;
+    background: rgb(88,55,132);
+    background: linear-gradient(309deg, rgba(88,55,132,1) 0%, rgba(109,69,154,1) 32%, rgba(170,67,111,1) 71%, rgba(197,57,152,1) 100%);
+    border:1px solid rgb(88,55,132);
+}
+
+.button.primary:hover, .button.primary:focus {
+    background: linear-gradient(309deg, rgba(88,55,132,1) 0%, rgba(109,69,154,1) 20%, rgba(170,67,111,1) 57%, rgba(197,57,152,1) 100%);
+}
+
+.button.primary:focus {
+    box-shadow: var(--shadow-button);
+    border-color: rgb(109,69,154);
+}
+
+.button.primary:active {
+    border-color: var(--color-violet-active);
+}
+
+.button:active {
+    padding-top: calc(var(--s) + 2px);
+    padding-bottom: var(--s);
+}
+
+.button.primary:active {
+    color: #e7d0e1;
+}

@@ -1,0 +1,93 @@
+.table {
+    width:100%;
+    margin: var(--m) 0;
+}
+
+.table .row > div {
+    padding: var(--m);
+}
+
+.table .tableBody > .row:not(:last-of-type) {
+    border-bottom: 1px solid var(--color-third);
+}
+
+.table.dense .row > div {
+    padding: var(--s);
+}
+
+.table .tableHeader .row > div {
+    color: var(--color-sub-text)
+}
+
+.table .row {
+    display: flex;
+}
+
+.table .tableBar {
+    display: flex;
+    gap: var(--m);
+    justify-content: space-between;
+}
+
+
+.table .tableBar .statCell, .table .tableBar .paginationCell {
+    padding: var(--s);
+}
+
+
+.table .tableBar .statCell {
+    width:50%;
+}
+
+.table .tableBar .paginationCell {
+    width:50%;
+    display: flex;
+    justify-content: end;
+    gap: var(--l);
+    align-items: center;
+}
+
+.pagination {
+    display: flex;
+    align-content: end;
+    gap: var(--s);
+}
+
+.pagination .page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: .2s;
+    padding: var(--xs) var(--s);
+    border-radius: 2px;
+    border:1px solid var(--color-third);
+    cursor: pointer;
+    user-select: none;
+    min-width: 16px;
+}
+
+.pagination .page.jump {
+    padding: var(--xxs) 6px;
+}
+
+
+.pagination .page.active {
+    border-color: var(--color-purple);
+    color: var(--color-text-purple);
+}
+
+.pagination .page:hover {
+    border-color: var(--color-purple);
+    color: var(--color-text-purple);
+}
+
+.pagination .page:active {
+    border-color: var(--color-purple-active);
+    color: var(--color-purple-active);
+}
+
+.showWindow {
+    display: inline-flex;
+    justify-content: center;
+    color: var(--color-sub-text);
+}

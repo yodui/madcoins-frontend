@@ -1,0 +1,9 @@
+.signInModal .modal {
+    width:260px;
+}
+
+.signInForm {
+    display: flex;
+    gap: var(--s);
+    flex-direction: column;
+}

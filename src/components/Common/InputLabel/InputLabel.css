@@ -1,0 +1,46 @@
+.inputLabel {
+    display: inline-flex;
+    flex-direction: column-reverse;
+}
+
+
+.inputLabel label {
+    font-size: 0.85em;
+    display: block;
+    color: var(--color-sub-text);
+    padding: var(--xs) var(--xs) var(--s) 0;
+
+}
+
+.inputLabel .input {
+    border-radius: var(--border-radius);
+    background: var(--color-input-background);
+    font-size: 0.9em;
+    color: var(--color-text-input);
+    outline: none;
+    padding: var(--s);
+    box-sizing: border-box;
+    height:40px;
+    border:1px solid transparent;
+    transition: .1s;
+}
+
+.inputLabel .input:focus {
+    background: var(--color-input-background-focus);
+    border: 1px solid var(--color-input-border-focus);
+    box-shadow: 0px 3px 4px rgb(109 69 154 / 30%);
+}
+
+.inputLabel .input:focus + label {
+    color: var(--color-text);
+}
+
+.inputLabel .input.error {
+    border-color: var(--color-error-input-border)
+}
+
+.inputLabel .errorMsg {
+    font-size: 0.85em;
+    padding: var(--xs) 0;
+    color: var(--color-error-text);
+}

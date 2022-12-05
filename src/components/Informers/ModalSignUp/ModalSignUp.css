@@ -1,0 +1,63 @@
+/* SignUp */
+
+.signUpModal .modal {
+    width:620px;
+}
+
+.signUpModal .cols {
+    display: flex;
+    gap: var(--xxl);
+}
+
+.signUpModal .cols .col1 {
+    width:60%;
+    font-size: 0.9em;
+}
+
+.signUpModal .cols .col1 ul {
+    padding-left: var(--xl);
+}
+
+.signUpModal .cols .col1 ul li {
+    padding: var(--xxs) 0;
+}
+
+.signUpModal .cols .col1, .signUpModal .cols .col2 {
+    width:50%;
+}
+
+.signUpModal .cols .col2 {
+    width:40%;
+}
+
+.signUpModal .signUpForm {
+    display: flex;
+    gap: var(--s);
+    flex-direction: column;
+}
+
+.alphaAttention {
+    padding: var(--xxs);
+    border-radius: var(--m);
+    background: rgb(88,55,132);
+    background: linear-gradient(310deg, rgba(88,55,132,1) 0%, rgba(109,69,154,1) 100%);
+    box-shadow: var(--shadow-button);
+    margin-bottom: var(--xl);
+}
+
+.alphaAttention .content {
+    background: rgb(88, 55, 132);
+    color: #a169c2;
+    padding: var(--l);
+    border-radius: var(--m);
+    background: var(--color-second);
+}
+
+.alphaAttention p {
+    padding: 0;
+    margin: 0;
+}
+
+.alphaAttention p:not(:last-of-type) {
+    padding-bottom: var(--m);
+}

@@ -1,0 +1,17 @@
+:root {
+    --l: 20px;
+    --m: 12px;
+}
+
+.pageLayout {
+    width:100%;
+    box-sizing: border-box;
+}
+
+.pageLayout {
+    padding: 0;
+}
+
+.contentPage {
+    padding: var(--l);
+}

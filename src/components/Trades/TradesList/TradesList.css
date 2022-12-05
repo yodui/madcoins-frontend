@@ -1,0 +1,34 @@
+.amount {
+}
+
+.amount.sell {
+    color: var(--color-sell);
+}
+
+.amount.buy {
+    color: var(--color-buy);
+}
+
+.rate .value {
+}
+
+.tradeSum {
+    font-size: 0.9em;
+    color: var(--color-sub-text);
+    padding-top: var(--xxs);
+}
+
+.baseTicker {
+    font-weight: bold;
+}
+
+.quoteTicker {
+    font-weight: 200;
+    color: var(--color-sub-text);
+}
+
+.exTicker {
+    padding-top: var(--xxs);
+    font-size: 0.9em;
+    color:var(--color-text);
+}

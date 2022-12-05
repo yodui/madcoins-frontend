@@ -1,0 +1,70 @@
+html, body {
+    font-family: Arial;
+    font-size: 15px;
+    padding:0;
+    margin:0;
+    background: var(--color-dark);
+    color:var(--color-text);
+}
+
+a {
+    color:var(--color-link);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+h1 {
+    font-weight: normal;
+    font-size: 1.8em;
+    margin:0;
+    padding: 0;
+    color: #efeeee;
+}
+
+:root {
+    --xxs: 2px;
+    --xs: 4px;
+    --s: 8px;
+    --m: 12px;
+    --l: 24px;
+    --xl: 32px;
+    --xxl: 64px;
+
+    --border-radius: 3px;
+
+    --color-dark: #151B25;
+    --color-second: #283342;
+    --color-third: #3a495e;
+    --color-fourth: #AEB8C8;
+
+    --color-text: #AEB8C8;
+    --color-sub-text: #546579;
+    --color-link: #8f65be;
+
+    --color-input-background: #394659;
+    --color-input-border-focus: rgb(109,69,154);
+    --color-input-background-focus: #283042;
+    --color-text-input: #9bb1cb;
+
+    --shadow-button: 0px 3px 6px rgba(119, 76, 168, 0.3);
+
+    --color-purple: #C53998;
+    --color-text-purple: #dc42a9;
+    --color-purple-active: #af3087;
+    --color-violet: #6D459A;
+    --color-violet-active: #7f4fb4;
+
+    --color-error-text: #d24e4e;
+    --color-error-input-border: #b74848;
+
+    --color-sell: #c53838;
+    --color-buy: #38a22d;
+}
+
+.pointer {
+    cursor: pointer;
+}
