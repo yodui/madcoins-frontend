@@ -14,12 +14,16 @@ const InputLabel = ({name, label, value, type, onChange, alerts, opt}) => {
     const clsInput = ['input'];
 
     const hasErr = hasErrors(alerts);
+    console.log(alerts);
 
+    console.log(opt, 'hasErr: ', hasErr);
     if(opt) {
         if(opt.highlight) {
-            if ((opt.highlightWhenSubmitted && opt.isSubmitted) || !opt.highlightWhenSubmitted) {
-                (hasErr) && clsInput.push('hasErrors');
-                (!hasErr && Array.isArray(alerts) && alerts.length) && clsInput.push('hasAlerts');
+            if (opt.isSubmitted) {
+                //(hasErr) &&
+                clsInput.push('hasErrors');
+                //(!hasErr &&
+                (Array.isArray(alerts) && alerts.length) && clsInput.push('hasAlerts');
             }
         }
         if(opt.isSubmitted) {
@@ -31,14 +35,11 @@ const InputLabel = ({name, label, value, type, onChange, alerts, opt}) => {
         // Show alerts in field when:
         // 1. Alert has 'alwaysShow' flag
         // 2. Alert is not walid and has 'realtime' flag
-        // 3. Show all alerts if form was submitted
-        if(opt.isSubmitted) {
-            return alerts;
-        }
+        // 3. If form was submitted and alert is not valid
         let filtered=[];
         if(Array.isArray(alerts)) {
             alerts.forEach(a => {
-                if((a.realtime && !a.valid) || a.alwaysShow) {
+                if((opt.isSubmitted && !a.valid) || (a.realtime && !a.valid) || a.alwaysShow) {
                     filtered = [...filtered, a];
                 }
             });
@@ -68,7 +69,7 @@ const InputLabel = ({name, label, value, type, onChange, alerts, opt}) => {
                 return <div key={i} className={cls.join(' ')}>{icon}<span>{a.msg}</span></div>
             }) }
         </div>
-        
+
     }
 
     return <div className='inputLabel'>
