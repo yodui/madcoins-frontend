@@ -42,6 +42,8 @@ h1 {
     --color-fourth: #AEB8C8;
 
     --color-text: #AEB8C8;
+    --color-tip-text: #8ba6d3;
+    --color-tip-completed: #528a16;
     --color-sub-text: #546579;
     --color-link: #8f65be;
 
@@ -60,9 +62,12 @@ h1 {
 
     --color-error-text: #d24e4e;
     --color-error-input-border: #b74848;
+    --color-alert-input-border: #b77348;
 
     --color-sell: #c53838;
     --color-buy: #38a22d;
+
+    --green: #38a22d;
 }
 
 .pointer {

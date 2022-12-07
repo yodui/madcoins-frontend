@@ -3,7 +3,8 @@ import Modal from '../Modal/Modal';
 import InputLabel from '../../Common/InputLabel/InputLabel';
 import Button from '../../Common/Button/Button';
 import './ModalSignIn.css';
-import useForm from '../../../hooks/useForm';
+import {useForm} from '../../../hooks/useForm';
+import formValidators from './FormValidators';
 
 const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
 
@@ -11,46 +12,7 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
         console.log('Parent submit. Form values:', values);
     }
 
-    const fields = {
-        email: {
-            realtime: false,
-            validators: {
-                required: {
-                    msg: 'Email is required field',
-                    break: true
-                },
-                isEmail: {
-                    msg: 'Syntax email is not valid',
-                    break: true
-                },
-                custom: {
-                    check: () => true,
-                    msg: 'Email is already taken',
-                    callback: val => {
-                        console.log(`callback, email ${val} is already taken`);
-                    }
-                }
-            }
-        },
-        password: {
-            realtime: true,
-            validators: {
-                required: {
-                    msg: 'Password is required field',
-                    break: false
-                },
-                regex: {
-                    pattern: /^[a-z0-9]{3,}$/i,
-                    msg: 'At least 8 characters',
-                    className: 'tip',
-                    completedClassName: 'completed',
-                    alwaysShow: true
-                }
-            }
-        }
-    }
-
-    const {values, errors, handleSubmit, register} = useForm(handleSubmitNative, fields);
+    const {values, handleSubmit, register} = useForm(handleSubmitNative, formValidators);
 
     return <Modal name='SignIn' className='signInModal' show={show} handleClose={handleClose}>
         <form className='signInForm' onSubmit={handleSubmit}>

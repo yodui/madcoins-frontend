@@ -35,12 +35,37 @@
     color: var(--color-text);
 }
 
-.inputLabel .input.error {
+.inputLabel .input.hasAlerts {
+
+}
+
+.inputLabel .input.hasErrors {
     border-color: var(--color-error-input-border)
 }
 
-.inputLabel .errorMsg {
+.inputLabel .aItem:first-of-type {
+    padding-top: var(--s);
+}
+
+.inputLabel .aItem {
     font-size: 0.85em;
-    padding: var(--xs) 0;
+    padding: var(--xs) 0 0 0;
+    display: flex;
+    gap: var(--xs);
+    align-content: center;
     color: var(--color-error-text);
+}
+
+.inputLabel .aItem.tip {
+    color: var(--color-tip-text);
+    font-size: 0.8em;
+}
+
+.inputLabel .aItem span {
+    display: flex;
+    align-items: center;
+}
+
+.inputLabel .aItem.completed {
+    color: var(--green);
 }
