@@ -106,41 +106,47 @@ const useForm = (handleSubmitCallback, options) => {
         }
     }
 
+    // validation method
     const run = function (vName, fieldName, params) {
 
         const opt = options[fieldName];
-        const validator = params;
         let conditionCheck = true;
 
         // check exists condition for validation
-        const conditionFn = validator['condition'];
+        const conditionFn = params['condition'];
         if(typeof conditionFn === 'function') conditionCheck = conditionFn(values[fieldName]);
 
         if(conditionCheck) {
             // validate
-            const validationResult = validators[vName](fieldName, params);
+            const isValid = validators[vName](fieldName, params);
 
-            if(!validationResult || validator.alwaysShow) {
-                const alert = {'msg': validator.msg};
-                if(validator.default) {
-                    // we have view options, copy it for render later
-                    alert.default = structuredClone(validator.default);
-                }
-                if(validator.completed) {
-                    // we have view options, copy it for render later
-                    alert.completed = structuredClone(validator.completed);
-                }
-                // add validation result if we have always show error
-                if(validator.alwaysShow) alert.valid = validationResult;
+            const alert = mapToAlert(params, isValid);
 
-                return alert;
-            } else {
-                // call callback if exists and validation is successfully
-                (typeof validator.callback === 'function') && validator.callback(values[fieldName]);
-            }
+            // call callback if exists and validation is successfully
+            (isValid && typeof params.callback === 'function') && params.callback(values[fieldName]);
+
+            return alert;
 
         }
         return false;
+    }
+
+    // forward properties from validator to alert
+    const mapToAlert = (params, isValid) => {
+        const alert = {'msg': params.msg};
+
+        const forwardedProps = ['alwaysShow','realtime','view'];
+
+        forwardedProps.forEach(p => {
+            if(typeof params[p] !== "undefined") {
+                alert[p] = structuredClone(params[p]);
+            }
+        });
+
+        // add validation result if we have always show error
+        alert.valid = isValid;
+
+        return alert;
     }
 
     const handleSubmit = (e) => {
@@ -171,8 +177,9 @@ const useForm = (handleSubmitCallback, options) => {
     }
 }
 
-// alert - not same as error
-// we can get a list of alerts, but not errors
+// alert - not same as error, alert - structure with message, result of validation (true/false) and other fields
+// some times we need to show tips, conditions for create a password and state of complete this conditions
+// in form conponent (ex. sign in modal) we can get a list of alerts, but not errors
 // this method check exists errors in form
 const hasErrors = (alerts) => {
 

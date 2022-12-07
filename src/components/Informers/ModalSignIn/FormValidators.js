@@ -1,10 +1,13 @@
 const formValidators = {
     email: {
-        realtime: false,
         validators: {
             required: {
                 msg: 'Email is required field',
-                break: true
+                realtime: true,
+                break: true,
+                callback: val => {
+                    console.log('call!');
+                }
             },
             isEmail: {
                 msg: 'Syntax email is not valid',
@@ -12,6 +15,7 @@ const formValidators = {
             },
             custom: {
                 check: () => false,
+                realtime: true,
                 msg: 'Email is already taken',
                 callback: val => {
                     console.log(`callback, email ${val} is already taken`);
@@ -20,49 +24,53 @@ const formValidators = {
         }
     },
     password: {
-        highlight: true, // [false,true] - enabled/disabled highlight field, default true
-        highlightWhenSubmitted: true, // [false,true] - true - highlight field only when form was submitted
+        highlight: true, // enabled/disabled highlighting input field, default true
+        highlightWhenSubmitted: true, // highlight input field only when form was submitted
         validators: {
             regex: [
                 {
                     pattern: /^[^\s]{7,}$/i,
                     msg: 'At least 7 characters',
                     alwaysShow: true,
-                    default: {
-                        className: 'tip',
-                        iconName: 'close',
-                    },
-                    completed: {
-                        className: 'completed',
-                        iconName: 'check'
+                    view: {
+                        default: {
+                            className: 'tip',
+                            iconName: 'close',
+                        },
+                        completed: {
+                            className: 'completed',
+                            iconName: 'check'
+                        }
                     }
                 },
                 {
                     pattern: /[\d]+/i,
                     msg: 'At least one number',
                     alwaysShow: true,
-                    realtime: true,
-                    default: {
-                        className: 'tip',
-                        iconName: 'close',
-                    },
-                    completed: {
-                        className: 'completed',
-                        iconName: 'check'
+                    view: {
+                        default: {
+                            className: 'tip',
+                            iconName: 'close',
+                        },
+                        completed: {
+                            className: 'completed',
+                            iconName: 'check'
+                        }
                     }
                 },
                 {
                     pattern: /[a-z]+/i,
                     msg: 'At least one letter',
-                    realtime: true,
                     alwaysShow: true,
-                    default: {
-                        className: 'tip',
-                        iconName: 'close',
-                    },
-                    completed: {
-                        className: 'completed',
-                        iconName: 'check'
+                    view: {
+                        default: {
+                            className: 'tip',
+                            iconName: 'close',
+                        },
+                        completed: {
+                            className: 'completed',
+                            iconName: 'check'
+                        }
                     }
                 }
             ]

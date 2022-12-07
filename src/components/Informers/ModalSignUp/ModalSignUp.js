@@ -13,13 +13,7 @@ const ModalSignUp = ({show, handleClose, handleFormSwitcher}) => {
                         <p>Project <strong>MadCoins</strong> currently in early alpha and for compliting registration you must have an invite from developers team.</p>
                         <p>If you want to be in first wave of testers - submit letter to <a href='mailto:support@madcoins.io'>support@madcoins.io</a></p></div>
                 </div>
-                <p>What will i get after registration?</p>
-                <ul>
-                    <li>Realtime update all information</li>
-                    <li>Additional features and pages</li>
-                    <li>Additional custom stock indexes</li>
-                    <li>Opportunity to save your preferences in future</li>
-                </ul>
+                <p>Create an account to gain dozens of free function and features!</p>
             </div>
             <div className='col2'>
                 <div className='signUpForm'>

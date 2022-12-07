@@ -27,22 +27,48 @@ const InputLabel = ({name, label, value, type, onChange, alerts, opt}) => {
         }
     }
 
+    const filterAlerts = () => {
+        // Show alerts in field when:
+        // 1. Alert has 'alwaysShow' flag
+        // 2. Alert is not walid and has 'realtime' flag
+        // 3. Show all alerts if form was submitted
+        if(opt.isSubmitted) {
+            return alerts;
+        }
+        let filtered=[];
+        if(Array.isArray(alerts)) {
+            alerts.forEach(a => {
+                if((a.realtime && !a.valid) || a.alwaysShow) {
+                    filtered = [...filtered, a];
+                }
+            });
+        }
+        return filtered;
+    }
+
     const showAlerts = () => {
+        const showingAlerts = filterAlerts(alerts);
+        if(!Array.isArray(showingAlerts) || !showingAlerts.length) {
+            return;
+        }
+
         return <div className='alerts'>
-            { Array.isArray(alerts) && alerts.map((a,i) => {
+            { showingAlerts.map((a,i) => {
                 let cls = ['aItem'];
                 let icon;
-                if(a.default) {
-                    if(a.default.className) cls = [...cls, a.default.className];
-                    if(a.default.iconName) icon = <Icon name={a.default.iconName} />;
+                if(a.view && a.view.default) {
+                    if(a.view.default.className) cls = [...cls, a.view.default.className];
+                    if(a.view.default.iconName) icon = <Icon name={a.view.default.iconName} />;
                 }
-                if(a.valid && a.completed) {
-                    if(a.completed.className) cls = [...cls, a.completed.className];
-                    if(a.completed.iconName) icon = <Icon name={a.completed.iconName} />;
+                if(a.view && a.view.completed && a.valid) {
+                    if(a.view.completed.className) cls = [...cls, a.view.completed.className];
+                    if(a.view.completed.iconName) icon = <Icon name={a.view.completed.iconName} />;
                 }
+
                 return <div key={i} className={cls.join(' ')}>{icon}<span>{a.msg}</span></div>
             }) }
         </div>
+        
     }
 
     return <div className='inputLabel'>
