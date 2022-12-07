@@ -163,8 +163,8 @@ const useForm = (handleSubmitCallback, options) => {
             alerts: alerts[fieldName],
             opt: {
                 highlight: (opt.highlight || typeof opt.highlight === 'undefined') ? true : false,
-                isSubmitted: isSubmitted,
-                highlightWhenSubmitted: (opt.highlightWhenSubmitted) ? true : false
+                isSubmitted: isSubmitted
+                //highlightWhenSubmitted: (opt.highlightWhenSubmitted) ? true : false
             }
         }
     }
@@ -190,14 +190,10 @@ const hasErrors = (alerts) => {
         console.log('Error. Argument of method hasErrors must been array of alerts');
         return true;
     }
-    let check = false;
     alerts.every(a => {
-        if(!a.valid) {
-            check = true;
-            return false;
-        }
+        if(!a.valid) return true;
     });
-    return check;
+    return false;
 }
 
 export {useForm, hasErrors};
