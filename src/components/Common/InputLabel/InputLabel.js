@@ -2,6 +2,7 @@ import React from 'react';
 import './InputLabel.css';
 import Icon from '../Icon/Icon';
 import {hasErrors} from '../../../hooks/useForm';
+import Loader from '../Loader/Loader';
 
 const InputLabel = ({name, label, value, type, onChange, alerts, opt}) => {
 
@@ -20,10 +21,8 @@ const InputLabel = ({name, label, value, type, onChange, alerts, opt}) => {
     if(opt) {
         if(opt.highlight) {
             if (opt.isSubmitted) {
-                //(hasErr) &&
-                clsInput.push('hasErrors');
-                //(!hasErr &&
-                (Array.isArray(alerts) && alerts.length) && clsInput.push('hasAlerts');
+                hasErr && clsInput.push('hasErrors');
+                (!hasErr && Array.isArray(alerts) && alerts.length) && clsInput.push('hasAlerts');
             }
         }
         if(opt.isSubmitted) {

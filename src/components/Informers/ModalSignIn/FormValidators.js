@@ -14,7 +14,12 @@ const formValidators = {
                 break: true
             },
             custom: {
-                check: () => false,
+                check: () => new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        console.log('checked');
+                        resolve(true);
+                    }, 2000);
+                }),
                 realtime: true,
                 msg: 'Email is already taken',
                 callback: val => {

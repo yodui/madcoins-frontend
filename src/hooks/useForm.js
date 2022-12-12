@@ -83,7 +83,9 @@ const useForm = (handleSubmitCallback, options) => {
 
                     // this is set of validators
                     setOfValidators.map(params => {
+                        // run validator
                         const alert = run(vName, fieldName, params);
+
                         if(alert) {
                             if(!alert.valid) {
                                 isValid = false;
@@ -106,18 +108,20 @@ const useForm = (handleSubmitCallback, options) => {
         }
     }
 
+    const arun = async () => new Promise((resolve, reject) => {
+        console.log('Async!');
+        resolve(true);
+    })
+
     // validation method
     const run = function (vName, fieldName, params) {
-
-        const opt = options[fieldName];
         let conditionCheck = true;
-
         // check exists condition for validation
         const conditionFn = params['condition'];
         if(typeof conditionFn === 'function') conditionCheck = conditionFn(values[fieldName]);
 
         if(conditionCheck) {
-            // validate
+            // validate function
             const isValid = validators[vName](fieldName, params);
 
             const alert = mapToAlert(params, isValid);
@@ -164,7 +168,6 @@ const useForm = (handleSubmitCallback, options) => {
             opt: {
                 highlight: (opt.highlight || typeof opt.highlight === 'undefined') ? true : false,
                 isSubmitted: isSubmitted
-                //highlightWhenSubmitted: (opt.highlightWhenSubmitted) ? true : false
             }
         }
     }
@@ -190,10 +193,8 @@ const hasErrors = (alerts) => {
         console.log('Error. Argument of method hasErrors must been array of alerts');
         return true;
     }
-    alerts.every(a => {
-        if(!a.valid) return true;
-    });
-    return false;
+    const isValid = a => a.valid === true;
+    return !alerts.every(isValid);
 }
 
 export {useForm, hasErrors};
