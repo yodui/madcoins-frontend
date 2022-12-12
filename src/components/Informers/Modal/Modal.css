@@ -10,6 +10,7 @@
     left:50%;
     top:20%;
     max-height: 100vh;
+    overflow-y: auto;
     z-index: 201;
     min-width: 240px;
     transform: translate(-50%,-50%);

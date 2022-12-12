@@ -5,6 +5,7 @@ import Button from '../../Common/Button/Button';
 import './ModalSignIn.css';
 import {useForm} from '../../../hooks/useForm';
 import formValidators from './FormValidators';
+import Loader from '../../Common/Loader/Loader';
 
 const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
 
@@ -18,6 +19,9 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
         <form className='signInForm' onSubmit={handleSubmit}>
             <InputLabel label='E-mail' {...register('email')} />
             <InputLabel label='Password' {...register('password')} type='password' />
+            <div style={{display:'flex',gap:'6px',fontSize:'0.85em',color:'#546579',justifyContent:'center', alignItems: 'center'}}>
+                <Loader size='small' /> Checking email...
+            </div>
             <div className='formAction'>
                 <Button label='SignIn' variant='primary' leftIcon='login' />
             </div>
