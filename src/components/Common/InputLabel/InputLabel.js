@@ -15,9 +15,9 @@ const InputLabel = ({name, label, value, type, onChange, alerts, opt}) => {
     const clsInput = ['input'];
 
     const hasErr = hasErrors(alerts);
-    console.log(alerts);
+    //console.log(alerts);
 
-    console.log(opt, 'hasErr: ', hasErr);
+    //console.log(opt, 'hasErr: ', hasErr);
     if(opt) {
         if(opt.highlight) {
             if (opt.isSubmitted) {
