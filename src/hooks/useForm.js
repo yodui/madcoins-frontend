@@ -57,7 +57,7 @@ const useForm = (handleSubmitCallback, options) => {
                 }
             }
         });
-        console.log(collectedAlerts);
+        console.log('setAlerts: ', collectedAlerts);
         setAlerts(collectedAlerts);
     }, [values]);
 
@@ -107,11 +107,6 @@ const useForm = (handleSubmitCallback, options) => {
             return fieldAlerts;
         }
     }
-
-    const arun = async () => new Promise((resolve, reject) => {
-        console.log('Async!');
-        resolve(true);
-    })
 
     // validation method
     const run = function (vName, fieldName, params) {
