@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DataGrid from '../../Containers/DataGrid/DataGrid';
 import {IPaginationsOption} from '../../Containers/DataGrid/DataGrid';
 import TradesCounter from '../TradesCounter/TradesCounter';
-import Modal from '../../Informers/Modal/Modal';
+import Modal from '../../Common/Modal/Modal';
 import './TradesList.css';
 
 const columns = [

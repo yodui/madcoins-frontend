@@ -60,7 +60,7 @@
 
 @keyframes darkColorization {
     0% {
-        stroke: #A762F3;
+        stroke: #6D459A;
     }
     33.3% {
         stroke: #AA436F;
@@ -69,7 +69,7 @@
         stroke: #C53998;
     }
     100% {
-        stroke: #A762F3;
+        stroke: #6D459A;
     }
 }
 

@@ -5,8 +5,6 @@ const Loader = (props) => {
 
     let {size, theme} = props;
 
-    console.log('=>',size);
-
     const sizes = ['small', 'medium'];
     const themes = ['white', 'dark'];
 

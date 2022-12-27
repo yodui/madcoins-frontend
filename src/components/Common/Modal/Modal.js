@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '../../Common/Icon/Icon';
+import Icon from '../Icon/Icon';
 import './Modal.css';
 
 const Modal = ({children, name, show, className, handleClose}) => {

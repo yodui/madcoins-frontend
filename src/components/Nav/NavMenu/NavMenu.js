@@ -5,12 +5,12 @@ import './styles.css';
 import Box from '../../Containers/Box/Box';
 import Separator from '../../Nav/Separator/Separator';
 
-import Modal from '../../Informers/Modal/Modal';
+import Modal from '../../Common/Modal/Modal';
 import InputLabel from '../../Common/InputLabel/InputLabel';
 import Button from '../../Common/Button/Button';
 
-import ModalSignIn from '../../Informers/ModalSignIn/ModalSignIn';
-import ModalSignUp from '../../Informers/ModalSignUp/ModalSignUp';
+import ModalSignIn from '../../Forms/ModalSignIn/ModalSignIn';
+import ModalSignUp from '../../Forms/ModalSignUp/ModalSignUp';
 
 
 const NavMenu = () => {
