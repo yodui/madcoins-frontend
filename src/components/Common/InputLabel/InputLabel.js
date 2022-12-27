@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './InputLabel.css';
 import Icon from '../Icon/Icon';
 import {hasErrors} from '../../../hooks/useForm';
 import Loader from '../Loader/Loader';
+import {isPromise} from '../../../functions/Utilites';
 
 const InputLabel = ({name, label, value, type, onChange, alerts, opt}) => {
 
     const correctTypes = ['text','password','email','hidden'];
+
+    let hasErr = false;
 
     if(correctTypes.indexOf(type) === -1) {
         type=correctTypes[0];
@@ -14,10 +17,10 @@ const InputLabel = ({name, label, value, type, onChange, alerts, opt}) => {
 
     const clsInput = ['input'];
 
-    const hasErr = hasErrors(alerts);
-    //console.log(alerts);
+    useEffect(() => {
+        hasErr = hasErrors(alerts);
+    }, []);
 
-    //console.log(opt, 'hasErr: ', hasErr);
     if(opt) {
         if(opt.highlight) {
             if (opt.isSubmitted) {
@@ -30,42 +33,38 @@ const InputLabel = ({name, label, value, type, onChange, alerts, opt}) => {
         }
     }
 
-    const filterAlerts = () => {
-        // Show alerts in field when:
-        // 1. Alert has 'alwaysShow' flag
-        // 2. Alert is not walid and has 'realtime' flag
-        // 3. If form was submitted and alert is not valid
-        let filtered=[];
-        if(Array.isArray(alerts)) {
-            alerts.forEach(a => {
-                if((opt.isSubmitted && !a.valid) || (a.realtime && !a.valid) || a.alwaysShow) {
-                    filtered = [...filtered, a];
-                }
-            });
-        }
-        return filtered;
-    }
-
     const showAlerts = () => {
-        const showingAlerts = filterAlerts(alerts);
-        if(!Array.isArray(showingAlerts) || !showingAlerts.length) {
+
+        if(!Array.isArray(alerts) || !alerts.length) {
             return;
         }
 
         return <div className='alerts'>
-            { showingAlerts.map((a,i) => {
+            { alerts.map((a,i) => {
                 let cls = ['aItem'];
-                let icon;
+                let box;
+                let msg = a.msg;
+                if(a.responseMsg) {
+                    msg = a.responseMsg;
+                }
                 if(a.view && a.view.default) {
                     if(a.view.default.className) cls = [...cls, a.view.default.className];
-                    if(a.view.default.iconName) icon = <Icon name={a.view.default.iconName} />;
+                    if(a.loading === false) {
+                        if(a.view.default.iconName) box = <Icon name={a.view.default.iconName} />;
+                    } else {
+                        box = <span className="loaderWrapper"><Loader size="small" /></span>;
+                    }
                 }
-                if(a.view && a.view.completed && a.valid) {
-                    if(a.view.completed.className) cls = [...cls, a.view.completed.className];
-                    if(a.view.completed.iconName) icon = <Icon name={a.view.completed.iconName} />;
+                if(a.view) {
+                    if(a.valid === true && a.view.success) {
+                        if(a.view.success.className) cls = [...cls, a.view.success.className];
+                        if(a.view.success.iconName) box = <Icon name={a.view.success.iconName} />;
+                    } else if (a.valid === false && a.view.error) {
+                        if(a.view.error.className) cls = [...cls, a.view.error.className];
+                        if(a.view.error.iconName) box = <Icon name={a.view.error.iconName} />;
+                    }
                 }
-
-                return <div key={i} className={cls.join(' ')}>{icon}<span>{a.msg}</span></div>
+                return <div key={i} className={cls.join(' ')}>{box}<span>{msg}</span></div>
             }) }
         </div>
 

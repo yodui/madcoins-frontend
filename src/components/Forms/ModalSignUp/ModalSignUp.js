@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '../Modal/Modal';
+import Modal from '../../Common/Modal/Modal';
 import InputLabel from '../../Common/InputLabel/InputLabel';
 import Button from '../../Common/Button/Button';
 import './ModalSignUp.css';

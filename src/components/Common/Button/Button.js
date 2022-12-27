@@ -2,7 +2,7 @@ import React from 'react';
 import Icon from '../Icon/Icon';
 import './Button.css';
 
-const Button = ({name, label, value, variant, className, onClick, leftIcon = false, rightIcon = false}) => {
+const Button = ({name, label, value, variant, className, onClick, isValidationCompleted = true, isFormValid = true, leftIcon = false, rightIcon = false}) => {
 
     const icon = {
         left: (leftIcon) ? <Icon name={leftIcon} /> : null,
@@ -19,7 +19,7 @@ const Button = ({name, label, value, variant, className, onClick, leftIcon = fal
     (className) && buttonCls.push(className);
 
     return <button onClick={onClick} className={buttonCls.join(' ')} name={name} value={value}>
-        <span className='content'>{icon.left}{label}{icon.right}</span>
+        <span className='content'>{icon.left}{label} {(isValidationCompleted === true) ? '✓' : '?'} {(isFormValid === true) ? '✓' : '?'} {icon.right}</span>
     </button>
 }
 
