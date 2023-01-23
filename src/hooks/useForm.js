@@ -15,7 +15,12 @@ const useForm = (handleSubmitCallback, options) => {
     const [alerts, setAlerts] = useState({});
 
     const [values, setValues] = useState({});
-    const [isSubmitted, setSubmitted] = useState(false);
+
+    // Form states
+    // 1. isFormSubmitted - form was submitted, but this is not mean sended
+    const [isFormSubmitted, setFormSubmitted] = useState(false);
+    // 2. isFormSending - form is sending currently to backend endpoint
+    const [isFormSending, setFormSending] = useState(false);
 
     const pValues = useRef();
 
@@ -62,7 +67,6 @@ const useForm = (handleSubmitCallback, options) => {
                 isChainValid[fieldName] = true;
                 // change state index of chain
                 chainStateIndex[fieldName]++;
-
                 validateField(fieldName);
             }
         });
@@ -70,11 +74,11 @@ const useForm = (handleSubmitCallback, options) => {
 
     useEffect(() => {
         updateAlerts();
-    }, [validators, isSubmitted]);
+    }, [validators, isFormSubmitted]);
 
     const handleChange = (e) => {
         e.persist();
-        setSubmitted(false);
+        setFormSubmitted(false);
         let fieldName = e.target.name;
         let val = e.target.value;
         // save previous values for compare in future
@@ -144,7 +148,7 @@ const useForm = (handleSubmitCallback, options) => {
                 if(result.hasOwnProperty('promise') && isPromise(result.promise)) {
                     // set loading state of validator
                     loading = true;
-                    result.promise.then((response) => processingResponse(response, v));
+                    result.promise.then((response) => validatorResponse(response, v));
                 } else {
                     // change validators by index, set result of validation
                     isValid = result.valid;
@@ -165,7 +169,7 @@ const useForm = (handleSubmitCallback, options) => {
 
     }
 
-    const processingResponse = (response, v) => {
+    const validatorResponse = (response, v) => {
         // if current response deprecated - drop it
         if(response.stateIndex == chainStateIndex[v.fieldName]) {
             updateValidator(v.fieldName, v.index, {...response, loading: false});
@@ -189,7 +193,7 @@ const useForm = (handleSubmitCallback, options) => {
                     // Add alert when:
                     // 1. alwaysShow flag is true
                     // 2. validator state is false and form was submitted
-                    if(v.options.alwaysShow || (v.valid === false && isSubmitted) || (v.loading === true)) {
+                    if(v.options.alwaysShow || (v.valid === false && isFormSubmitted) || (v.loading === true)) {
                         fieldAlerts.push(mapValidatorToAlert(v));
                     }
                     if(v.valid !== true) validChain = false;
@@ -201,7 +205,7 @@ const useForm = (handleSubmitCallback, options) => {
                 }
             }
         });
-
+        console.log('actualAlerts: ', actualAlerts);
         setAlerts(actualAlerts);
     }
 
@@ -250,25 +254,6 @@ const useForm = (handleSubmitCallback, options) => {
         return alert;
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setSubmitted(true);
-        handleSubmitCallback();
-    }
-
-    const inputProps = (fieldName) => {
-        const opt = options[fieldName];
-        return {
-            name: fieldName,
-            onChange: handleChange,
-            alerts: alerts[fieldName],
-            opt: {
-                highlight: (!opt || opt.highlight || typeof opt.highlight === 'undefined') ? true : false,
-                isSubmitted: isSubmitted
-            }
-        }
-    }
-
     const validationState = () => {
         const state = {
             completed: true,
@@ -292,13 +277,51 @@ const useForm = (handleSubmitCallback, options) => {
         return state;
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        setFormSubmitted(true);
+        const state = validationState();
+
+        if(state.completed && state.valid && !isFormSending) {
+            // disable submit buttons when request is sending
+            setFormSending(true);
+            const response = await handleSubmitCallback();
+            // enable submit buttons
+            if(response.result === false) {
+                // parse errors
+                parseBackendErrors(response.fields);
+            }
+            setFormSending(false);
+        }
+    }
+
+    const parseBackendErrors = (fields) => {
+        let backendAlerts = {};
+        for(const [k, v] of Object.entries(fields)) {
+            if(!backendAlerts[v.field]) backendAlerts[v.field] = [];
+            for(let error of v.errors) {
+                backendAlerts[v.field].push({ msg: error });
+            }
+        }
+        setAlerts(backendAlerts);
+    }
+
+    const inputProps = (fieldName) => {
+        const opt = options[fieldName];
+        return {
+            name: fieldName,
+            onChange: handleChange,
+            alerts: alerts[fieldName]
+        }
+    }
+
     const submitProps = () => {
         const state = validationState();
-        console.log(validators);
-        console.log(state);
         return {
             isValidationCompleted: state.completed,
-            isFormValid: state.valid
+            isFormValid: state.valid,
+            isLoading: isFormSending
         }
     }
 

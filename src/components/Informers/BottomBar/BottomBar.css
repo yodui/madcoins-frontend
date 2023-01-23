@@ -7,11 +7,17 @@
     background: var(--color-second);
     height: 20px;
     display: flex;
+    gap: var(--xl);
     padding: var(--s) var(--l);
     border-top: 1px solid var(--color-dark);
 }
 
-.bottomBar .connection {
-    width: 50%;
+.bottomBar .barItem {
+    display: flex;
+    gap: var(--s);
     color: var(--color-sub-text);
+}
+
+.bottomBar .barItem .userData {
+    color: var(--color-text);
 }

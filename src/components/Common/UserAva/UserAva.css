@@ -1,0 +1,23 @@
+.userAva {
+    display: inline-flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: var(--color-ava-bg);
+    color: var(--color-ava-text);
+
+    user-select: none;
+    border-radius: 50%;
+    font-size: .8em;
+}
+
+.userAva.S {
+    width: var(--ava-s);
+    height: var(--ava-s);
+}
+
+.userAva.M {
+    width: var(--ava-m);
+    height: var(--ava-m);
+}

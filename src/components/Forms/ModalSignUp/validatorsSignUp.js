@@ -1,4 +1,4 @@
-const formValidators = {
+const validatorsSignIn = {
     email: {
         validators: {
             required: {
@@ -150,4 +150,4 @@ const formValidators = {
     }
 }
 
-export default formValidators;
+export default validatorsSignIn;
