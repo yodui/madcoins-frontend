@@ -20,7 +20,6 @@ const ModalSignUp = ({show, handleClose, handleFormSwitcher}) => {
                     <InputLabel name='email' label='E-mail' />
                     <InputLabel name='invite' label='Invite code' />
                     <InputLabel name='password' label='Password' type='password' />
-                    <InputLabel name='confirm' label='Confirm password' type='password' />
                     <div className='formAction'>
                         <Button label='SignUp' variant='primary' leftIcon='send' />
                     </div>

@@ -8,15 +8,16 @@ import validatorsSignIn from './validatorsSignIn';
 import Loader from '../../Common/Loader/Loader';
 import { uFetch } from '../../../functions/uFetch';
 
-import { useSelector, useDispatch } from 'react-redux';
+// redux
+import { connect } from 'react-redux';
+// actions
 import { signIn } from '../../../store/actions/AuthActions';
 
-const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
+
+const ModalSignIn = ({show, handleClose, handleFormSwitcher, auth, signIn}) => {
 
     const HOST = 'http://localhost:3000';
     const URI_AUTH = '/api/login';
-
-    const dispatch = useDispatch();
 
     const handleSubmitNative = () => {
         return new Promise(async (resolve, reject) => {
@@ -35,8 +36,14 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
                 console.log('Response: ', response);
                 // processing
                 if(response.result !== false) {
+                    // valid
+                    localStorage.setItem('token', response.accessToken);
+                    // save user data
+                    localStorage.setItem('user', JSON.stringify(response.user));
                     // save state in to store
-                    dispatch(signIn(response.user, response.accessToken));
+                    const authData = { isAuth: true, user: response.user };
+                    console.log('Sign in...', authData);
+                    signIn(authData);
                 }
                 resolve(response);
             } catch(e) {
@@ -65,6 +72,7 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
     const {values, handleSubmit, inputProps, submitProps} = useForm(handleSubmitNative, validatorsSignIn);
 
     return <Modal name='SignIn' className='signInModal' show={show} handleClose={handleClose}>
+        { auth.isAuth ? 'Authorized' : 'Unauthorized' }
         <form className='signInForm' onSubmit={handleSubmit}>
             <InputLabel label='E-mail' autoFocus={true} rightIcon='email-outline' { ...inputProps('email') } />
             <InputLabel label='Password' { ...inputProps('password') } type='password' />
@@ -76,4 +84,17 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
     </Modal>
 }
 
-export default ModalSignIn;
+const mapStateToProps = (store) => {
+    return {
+        auth: store.auth
+    }
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signIn: (data) => dispatch(signIn(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalSignIn);

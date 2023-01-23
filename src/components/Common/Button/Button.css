@@ -24,6 +24,14 @@
     background: none;
 }
 
+.button .loaderWrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width:20px;
+    height:20px;
+}
+
 .button.outlined {
     box-sizing: border-box;
     background: none;

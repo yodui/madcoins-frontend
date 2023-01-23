@@ -1,37 +1,79 @@
-.inputLabel {
+.containerInput {
     display: inline-flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 }
 
-
-.inputLabel label {
-    font-size: 0.85em;
-    display: block;
+.containerInput label {
+    user-select: none;
     color: var(--color-sub-text);
-    padding: var(--xs) var(--xs) var(--s) 0;
-
 }
 
-.inputLabel .input {
+.containerInput.disabled .fieldWrapper {
+    background: var(--color-input-disbled-background);
+}
+
+.containerInput label .labelText {
+    font-size: .85em;
+    display: block;
+    padding: var(--xs) var(--xs) var(--s) 0;
+}
+
+.containerInput .fieldWrapper {
+    display: flex;
+    align-items: center;
     border-radius: var(--border-radius);
     background: var(--color-input-background);
-    font-size: 0.9em;
     color: var(--color-text-input);
-    outline: none;
-    padding: var(--s);
-    box-sizing: border-box;
-    height:40px;
-    border:1px solid transparent;
+    border:2px solid transparent;
+    padding: 0 var(--xs);
     transition: .1s;
 }
 
-.inputLabel .input:focus {
+
+.containerInput .iconDest {
+    display: flex;
+    align-items: center;
+    color: var(--color-text);
+    background: none;
+    border: 2px solid transparent;
+    padding: var(--xs);
+    border-radius: var(--xs);
+}
+
+.containerInput .iconDest.switcher {
+    cursor: pointer;
+}
+
+.containerInput .input {
+    background: none;
+    font-size: .9em;
+    outline: none;
+    padding: var(--s);
+    box-sizing: border-box;
+    color: var(--color-text-input);
+    height:40px;
+    border:none;
+    width:100%;
+}
+
+
+.containerInput.focus .fieldWrapper {
     background: var(--color-input-background-focus);
-    border: 1px solid var(--color-input-border-focus);
+    border: 2px solid var(--color-input-border-focus);
     box-shadow: 0px 3px 4px rgb(109 69 154 / 30%);
 }
 
-.inputLabel .loaderWrapper {
+.containerInput .iconDest.switcher:focus {
+    outline: none;
+    background: var(--color-input-background-focus);
+    border-color: var(--color-input-border-focus);
+}
+
+.containerInput .switcher:active {
+    margin-top:2px;
+}
+
+.containerInput .loaderWrapper {
     display: inline-flex;
     width:20px;
     height:20px;
@@ -39,23 +81,23 @@
     justify-content: center;
 }
 
-.inputLabel .input:focus + label {
+.containerInput.focus > label {
     color: var(--color-text);
 }
 
-.inputLabel .input.hasAlerts {
+.containerInput .input.hasAlerts {
 
 }
 
-.inputLabel .input.hasErrors {
+.containerInput .input.hasErrors {
     border-color: var(--color-error-input-border)
 }
 
-.inputLabel .aItem:first-of-type {
+.containerInput .aItem:first-of-type {
     padding-top: var(--s);
 }
 
-.inputLabel .aItem {
+.containerInput .aItem {
     font-size: 0.85em;
     padding: var(--xs) 0 0 0;
     display: flex;
@@ -64,20 +106,20 @@
     color: var(--color-error-text);
 }
 
-.inputLabel .aItem.tip {
+.containerInput .aItem.tip {
     color: var(--color-tip-text);
     font-size: 0.8em;
 }
 
-.inputLabel .aItem.error {
+.containerInput .aItem.error {
     color: var(--color-error-text);
 }
 
-.inputLabel .aItem span {
+.containerInput .aItem span {
     display: flex;
     align-items: center;
 }
 
-.inputLabel .aItem.success {
+.containerInput .aItem.success {
     color: var(--green);
 }

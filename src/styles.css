@@ -47,6 +47,14 @@ h1 {
     --color-sub-text: #546579;
     --color-link: #8f65be;
 
+    --color-ava-bg: var(--color-sub-text);
+    --color-ava-text: var(--color-text);
+    --ava-s: 24px;
+    --ava-m: 32px;
+
+    --color-input-disabled-background: #1f2938;
+    --color-input-disabled-text: #546579;
+
     --color-input-background: #394659;
     --color-input-border-focus: #6D459A;
     --color-input-background-focus: #283042;
@@ -56,6 +64,7 @@ h1 {
 
     --color-purple: #C53998;
     --color-text-purple: #dc42a9;
+    --color-icon-purple-focused: #9467bc;
     --color-purple-active: #af3087;
     --color-violet: #6D459A;
     --color-violet-active: #7f4fb4;
