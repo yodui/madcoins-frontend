@@ -1,12 +1,12 @@
 /* SignUp */
 
 .signUpModal .modal {
-    width:620px;
+    width:560px;
 }
 
 .signUpModal .cols {
     display: flex;
-    gap: var(--xxl);
+    gap: var(--xl);
 }
 
 .signUpModal .cols .col1 {
@@ -23,11 +23,12 @@
 }
 
 .signUpModal .cols .col1, .signUpModal .cols .col2 {
-    width:50%;
+    width:54%;
+    padding-right: var(--m);
 }
 
 .signUpModal .cols .col2 {
-    width:40%;
+    width:46%;
 }
 
 .signUpModal .signUpForm {
@@ -53,7 +54,25 @@
     background: var(--color-second);
 }
 
-.alphaAttention p {
+.signUpModal .alphaAttention p {
+    padding: 0;
+    margin: 0;
+}
+
+.signUpModal .signUpBenefits .item {
+    display: flex;
+}
+
+.signUpModal .signUpBenefits .item:not(:last-of-type) {
+    margin-bottom: var(--l);
+}
+
+.signUpModal .signUpBenefits .item .iconCell {
+    width: auto;
+    padding: 0 var(--m);
+}
+
+.signUpModal .signUpBenefits p {
     padding: 0;
     margin: 0;
 }

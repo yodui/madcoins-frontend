@@ -205,7 +205,6 @@ const useForm = (handleSubmitCallback, options) => {
                 }
             }
         });
-        console.log('actualAlerts: ', actualAlerts);
         setAlerts(actualAlerts);
     }
 
@@ -309,10 +308,20 @@ const useForm = (handleSubmitCallback, options) => {
 
     const inputProps = (fieldName) => {
         const opt = options[fieldName];
+
+        const highlight = opt.hasOwnProperty('highligh') && opt.highligh;
+        const highlightOnSubmit = opt.hasOwnProperty('highlightOnSubmit') && opt.highlightOnSubmit;
+
+        let needHighlight = false;
+        if((highlightOnSubmit && isFormSubmitted) || highlight) {
+            needHighlight = true;
+        }
+
         return {
             name: fieldName,
             onChange: handleChange,
-            alerts: alerts[fieldName]
+            alerts: alerts[fieldName],
+            highlight: needHighlight
         }
     }
 
@@ -335,9 +344,10 @@ const useForm = (handleSubmitCallback, options) => {
     }
 }
 
-// Alert - structure with message for showing in form. It's contains result of validation (true/false), view options and other info
-// some times we need to show tips, conditions for accepting a password and state of complete this conditions
-// this method check exists errors in list of alerts for one field, alerts must be an array
+// Alert - object with message for showing in form. It's contains result of validation (true/false), view options etc.
+// Some times we need to show tips, conditions for accepting and state of complete this conditions.
+// Alert is not same as error.
+// This method check exists errors in list of alerts for one field, alerts must be an array.
 const hasErrors = (alerts) => {
 
     if(typeof alerts !== 'object') {

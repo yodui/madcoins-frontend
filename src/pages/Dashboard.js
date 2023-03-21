@@ -1,5 +1,5 @@
 import react from 'react';
-import Box from '../Containers/Box/Box';
+import Box from '../components/Containers/Box/Box';
 
 const DashboardPage = () => {
     return (

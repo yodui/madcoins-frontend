@@ -1,7 +1,7 @@
 import React from 'react';
-import Box from '../Containers/Box/Box';
+import Box from '../components/Containers/Box/Box';
 
-import MarketsList from '../Markets/MarketsList/MarketsList';
+import MarketsList from '../components/Markets/MarketsList/MarketsList';
 
 const MarketsPage = () => {
     return (

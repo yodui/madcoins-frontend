@@ -1,0 +1,17 @@
+.dropDownItem {
+    display: flex;
+    gap: var(--s);
+    font-size: 0.9em;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    padding: var(--s) var(--s);
+    user-select: none;
+}
+
+.dropDownItem:active {
+    color: var(--color-fourth);
+}
+
+.dropDownItem:hover {
+    background: var(--color-third);
+}

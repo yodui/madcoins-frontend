@@ -5,18 +5,25 @@ import ModalSignIn from '../../Forms/ModalSignIn/ModalSignIn';
 import ModalSignUp from '../../Forms/ModalSignUp/ModalSignUp';
 
 import Button from '../../Common/Button/Button';
+import Switch from '../../Common/Switch/Switch';
 import UserAva from '../../Common/UserAva/UserAva';
 
-import { useSelector } from 'react-redux';
+import DropDownItem from '../../Common/DropDown/DropDownItem';
+import DropDownSeparator from '../../Common/DropDown/DropDownSeparator';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { logOut  } from '../../../store/actions/AuthActions';
+
+import { uFetch } from '../../../functions/uFetch';
 import DropDown from '../../Common/DropDown/DropDown';
-import { S, M } from '../../../constants/common';
+import { S, M, HOST, API_URI_LOGOUT } from '../../../constants/common';
 
 const UserMenu = () => {
 
+    const dispatch = useDispatch();
+
     const [openSignIn, setSignIn] = useState(false);
     const [openSignUp, setSignUp] = useState(false);
-
-    const [openUserMenu, setOpenUserMenu] = useState(false);
 
     const auth = useSelector((state) => state.auth);
 
@@ -43,11 +50,6 @@ const UserMenu = () => {
         }
     }
 
-    const toggleUserMenu = () => {
-        console.log('toggle drop down!', !openUserMenu);
-        setOpenUserMenu(!openUserMenu);
-    }
-
     const renderAuthMenu = () => {
         return <>
             <Button variant='text' className='white' leftIcon='login' onClick={handleOpenSignInModal} label='Sign In' />
@@ -61,9 +63,46 @@ const UserMenu = () => {
 
         const userAva = <UserAva email={auth.user.email} size={M} />
 
-        return <div onClick={() => toggleUserMenu()}>
-            <DropDown open={openUserMenu} trigger={userAva} menuItems={['User name','Theme','Log out']} />
-        </div>
+        const handleToggleTheme = () => {
+            console.log('toggle theme');
+            return true;
+        }
+
+        const handleTestToggle = () => {
+        }
+
+        const handleLogout = async () => {
+            const logOutUrl = HOST + API_URI_LOGOUT;
+            // Call backend endpoint for clear refreshToken
+            console.log(logOutUrl);
+            const requestParams = {
+                method: 'GET',
+                cache: 'no-cache'
+            };
+            const objResponse = await uFetch(logOutUrl, requestParams);
+
+            const response = await objResponse.json();
+
+            console.log('LogOut endpoint response: ', response);
+            // processing response
+            if(response.result !== false) {
+                // Local logout
+                dispatch(logOut());
+            }
+        }
+
+        const logOutProps = {
+            callback: handleLogout
+        };
+
+        const buttons = [
+            <DropDownItem iconName='moon' text='Dark Theme' component=<Switch checked={true} callback={handleToggleTheme} /> />,
+            <DropDownItem iconName='moon' text='Test toggle' component=<Switch checked={false} callback={handleTestToggle} /> />,
+            <DropDownSeparator />,
+            <DropDownItem iconName='logout' text='LogOut' { ...logOutProps } />,
+        ];
+
+        return <DropDown width='auto' isOpened={true} trigger={userAva} menuItems={buttons} />
     }
 
     return <ul className='userMenu'>

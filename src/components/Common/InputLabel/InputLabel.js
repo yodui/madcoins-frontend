@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './InputLabel.css';
 import Icon from '../Icon/Icon';
-import {hasErrors} from '../../../hooks/useForm';
+import { hasErrors } from '../../../hooks/useForm';
 import Loader from '../Loader/Loader';
-import {isPromise} from '../../../functions/Utilites';
+import { isPromise } from '../../../functions/Utilites';
 
 const correctTypes = ['text','password','email','hidden'];
 
 
-const InputLabel = ({name, label, value, type, autoFocus, rightIcon, leftIcon, onChange, alerts}) => {
+const InputLabel = ({name, label, value, type, autoFocus, rightIcon, leftIcon, onChange, highlight, alerts}) => {
 
     // input type
     const [inputType, setInputType] = useState();
     // focus state of field
     const [focus, setFocus] = useState(false);
+
     // visibility characters in text field (actual for password type)
     const [textVisibility, setTextVisibility] = useState(false);
 
@@ -25,7 +26,6 @@ const InputLabel = ({name, label, value, type, autoFocus, rightIcon, leftIcon, o
 
     useEffect(() => {
         // set input type
-        hasErr = hasErrors(alerts);
         if(!correctTypes.includes(type)) {
             type=correctTypes[0];
         }
@@ -75,12 +75,26 @@ const InputLabel = ({name, label, value, type, autoFocus, rightIcon, leftIcon, o
         }
     }, [textVisibility]);
 
-    useEffect(() => {
+    const toggleContainerStyle = (flag, cls) => {
         const actualStyles = new Set([...containerStyles]);
-        (focus) ? actualStyles.add('focus') : actualStyles.delete('focus');
-        // update state
+        (flag) ? actualStyles.add(cls) : actualStyles.delete(cls);
+        // update styles
         setContainerStyles([...actualStyles]);
-    }, [focus])
+    }
+
+    useEffect(() => {
+        toggleContainerStyle(focus, 'focus');
+    }, [focus]);
+
+    useEffect(() => {
+        const hasErr = hasErrors(alerts);
+        if(highlight && hasErr) {
+            // toggle highlight
+            toggleContainerStyle(true, 'errors');
+        } else {
+            toggleContainerStyle(false, 'errors');
+        }
+    }, [alerts, highlight])
 
     const renderRightIcon = () => {
         if(rightIcon) {
@@ -113,7 +127,7 @@ const InputLabel = ({name, label, value, type, autoFocus, rightIcon, leftIcon, o
             <span className='labelText'>{label}</span>
             <div className="fieldWrapper">
                 {renderLeftIcon()}
-                <input ref={inputElement} {...eventHandlers()} className='input' name={name} value={value} type={inputType} />
+                <input autoComplete='Off' ref={inputElement} {...eventHandlers()} className='input' name={name} value={value} type={inputType} />
                 {renderRightIcon()}
             </div>
         </label>
