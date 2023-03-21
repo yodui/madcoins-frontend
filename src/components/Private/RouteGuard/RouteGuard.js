@@ -1,10 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 const RouteGuard = ({children, redirect = '/signin'}) => {
-    const isAuth = null;
 
-    return isAuth ? children : <Navigate to={redirect} />
+    const auth = useSelector(store => store.auth);
+
+    return auth.isAuth ? children : <Navigate to={redirect} />
 }
 
 export default RouteGuard;

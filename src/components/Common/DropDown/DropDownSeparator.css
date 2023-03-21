@@ -1,0 +1,6 @@
+hr.dropDownSeparator {
+    background: none;
+    border: none;
+    border-top: 1px solid var(--color-dark);
+    border-bottom: 1px solid var(--color-third);
+}

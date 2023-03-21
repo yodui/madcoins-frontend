@@ -1,13 +1,11 @@
-const validatorsSignIn = {
+const validatorsSignUp = {
     email: {
+        highlightOnSubmit: true,
         validators: {
             required: {
                 msg: 'Email is required field',
                 realtime: true,
-                break: true,
-                callback: val => {
-                    console.log('Callback required call!');
-                }
+                break: true
             },
             isEmail: {
                 msg: 'Syntax email is not valid',
@@ -41,8 +39,23 @@ const validatorsSignIn = {
             }
         }
     },
+    invite: {
+        highlightOnSubmit: true,
+        validators: {
+            required: {
+                msg: 'Invite is required field in α',
+                realtime: true,
+                break: true
+            },
+            regex: {
+                pattern: /^[abcdex][\d]{3}$/i,
+                msg: 'Syntax invite code is not valid',
+                realtime: true
+            }
+        }
+    },
     password: {
-        highlight: true, // enabled/disabled highlighting input field, default true
+        highlightOnSubmit: true,
         validators: {
             regex: [
                 {
@@ -93,7 +106,7 @@ const validatorsSignIn = {
                     }
                 }
             ],
-            custom: [
+            /*custom: [
                 {
                     check: (value, stateIndex) => new Promise((resolve, reject) => {
                         const min = 500;
@@ -145,9 +158,9 @@ const validatorsSignIn = {
                         console.log(`callback, last checking!`);
                     }
                 },
-            ]
+            ]*/
         }
     }
 }
 
-export default validatorsSignIn;
+export default validatorsSignUp;

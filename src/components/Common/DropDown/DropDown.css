@@ -4,27 +4,45 @@
 
 .dropDownWrapper .trigger {
     cursor: pointer;
+    display: inline-block;
 }
 
 .dropDownWrapper .dropDown.closed {
-    opacity: 1;
-    transform: translate(0, 150%);
+    opacity: 0;
+    animation-delay: .1s;
+    animation-name: hideDropDown;
+    animation-fill-mode: forwards;
+}
+
+.dropDownWrapper .dropDown.closing {
+    animation-duration: .1s;
 }
 
 .dropDownWrapper .dropDown.opened {
-    visibility: visible;
     opacity: 1;
-    transform: translate(0, 100%);
+    visibility: visible;
 }
+
+@keyframes hideDropDown {
+    0% {
+        visibility: visible;
+    }
+    100% {
+        visibility: hidden;
+    }
+}
+
+
 
 .dropDownWrapper .dropDown {
     position: absolute;
     min-width: 240px;
     background: var(--color-second);
-    box-shadow: 0 0px 6px rgba(0,0,0,.5);
+    box-shadow: 0 0px 10px rgba(0,0,0,.66);
     border-radius: var(--border-radius);
-    transition: transform .2s;
-    bottom:0;
+    transition: opacity .1s;
+    bottom:calc((-1) * var(--s));
+    transform: translateY(100%);
 }
 
 .dropDownWrapper .dropDown {

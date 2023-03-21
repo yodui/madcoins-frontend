@@ -11,26 +11,26 @@ import { uFetch } from '../../../functions/uFetch';
 import { useSelector, useDispatch } from 'react-redux';
 import { signIn } from '../../../store/actions/AuthActions';
 
-const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
+import { HOST, API_URI_SIGNIN } from '../../../constants/common';
 
-    const HOST = 'http://localhost:3000';
-    const URI_AUTH = '/api/login';
+const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
 
     const dispatch = useDispatch();
 
     const handleSubmitNative = () => {
         return new Promise(async (resolve, reject) => {
-            const url = HOST+URI_AUTH;
-            console.log('Request:', values);
+            const urlSignIn = HOST + API_URI_SIGNIN;
+            console.log('Values: ',values);
             try {
-                const objResponse = await uFetch('http://localhost:3000/api/login', {
+                const requestParams = {
                     method: 'POST',
                     cache: 'no-cache',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(values)
-                });
+                };
+                const objResponse = await uFetch(urlSignIn, requestParams);
                 const response = await objResponse.json();
                 console.log('Response: ', response);
                 // processing
@@ -66,7 +66,7 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
 
     return <Modal name='SignIn' className='signInModal' show={show} handleClose={handleClose}>
         <form className='signInForm' onSubmit={handleSubmit}>
-            <InputLabel label='E-mail' autoFocus={true} rightIcon='email-outline' { ...inputProps('email') } />
+            <InputLabel label='E-mail' rightIcon='email-outline' { ...inputProps('email') } />
             <InputLabel label='Password' { ...inputProps('password') } type='password' />
             <div className='formAction'>
                 <Button label='SignIn' { ...submitProps() }  variant='primary' leftIcon='login' />

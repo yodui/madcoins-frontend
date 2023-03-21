@@ -12,7 +12,6 @@ const validatorsSignIn = {
         }
     },
     password: {
-        highlight: true,
         validators: {
             required: {
                 msg: 'Password is required field',

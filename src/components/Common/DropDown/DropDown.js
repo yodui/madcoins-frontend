@@ -1,12 +1,28 @@
-import react from 'react';
+import react, { useRef, useState } from 'react';
+import { useOutsideClick } from '../../../hooks/useOutsideClick';
+
 import './DropDown.css';
 
-const DropDown = ({open, trigger, menuItems, placement}) => {
+const DropDown = ({isOpened, trigger, menuItems, placement}) => {
 
-    const cls = ['dropDown', open ? 'opened' : 'closed'];
+    const [opened, setOpened] = useState(isOpened);
 
-    return <div className='dropDownWrapper'>
-        <span className='trigger'>{trigger}</span>
+    const cls = ['dropDown', opened ? 'opened' : 'closed'];
+
+    const closeDropDown = () => {
+        toggleDropDown(false);
+    }
+
+    const toggleDropDown = (mode) => {
+        setOpened(mode);
+    }
+
+    // listen outside clicks for close dropdown menu
+    const ref = useRef();
+    useOutsideClick(ref, closeDropDown);
+
+    return <div className='dropDownWrapper' ref={ref}>
+        <span className='trigger' onClick={() => toggleDropDown(!opened)}>{trigger}</span>
         <div className={ cls.join(' ') }>
             <ul className='menuItems'>
                 { menuItems.map((menuItem, index) => <li key={index}>{menuItem}</li>) }

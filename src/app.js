@@ -9,12 +9,15 @@ import PageLayout from './components/Containers/PageLayout/PageLayout';
 
 import RouteGuard from './components/Private/RouteGuard/RouteGuard';
 
-import UsersPage from './components/Pages/Users';
-import DashboardPage from './components/Pages/Dashboard';
-import ExchangesPage from './components/Pages/Exchanges';
-import TradesPage from './components/Pages/Trades';
-import MarketsPage from './components/Pages/Markets';
-import SignInPage from './components/Pages/Signin';
+import UsersPage from './pages/Users';
+import MainPage from './pages/MainPage';
+import ExchangesPage from './pages/Exchanges';
+import TradesPage from './pages/Trades';
+import MarketsPage from './pages/Markets';
+import DashboardPage from './pages/Dashboard';
+
+import SignInPage from './pages/Signin';
+
 
 const App = () => {
     return (
@@ -22,18 +25,19 @@ const App = () => {
             <Router>
                 <PageLayout>
                     <Routes>
-                        <Route path="/" element={<DashboardPage />} />
+                        <Route path="/" element={<MainPage />} />
 
-                        <Route path="/exchanges" element={<ExchangesPage />} />
-                        <Route path="/markets" element={<MarketsPage />} />
-                        <Route path="/trades" element={<TradesPage />} />
+                        <Route path="/exchanges" element=<ExchangesPage /> />
+                        <Route path="/markets" element=<MarketsPage /> />
+                        <Route path="/trades" element=<TradesPage /> />
 
+                        <Route path="/board" element=<DashboardPage /> />
                         <Route path="/users" element={
                             <RouteGuard redirect="/">
                                 <UsersPage />
                             </RouteGuard>
                         } />
-                        <Route path="/signin" element={<SignInPage />} />
+                        <Route path="/signin" element=<SignInPage /> />
                     </Routes>
                 </PageLayout>
             </Router>

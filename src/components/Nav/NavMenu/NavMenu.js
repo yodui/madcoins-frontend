@@ -11,22 +11,24 @@ import { useSelector } from 'react-redux';
 
 import { REQUIRED, NOT_REQUIRED } from '../../../constants/common';
 
+const LINK_TYPE = 0;
+const SEPARATOR_TYPE = 1;
+
+const menuItems = [
+    { path: '/', name: 'MadCoins', type: LINK_TYPE },
+    { path: '/exchanges', name: 'Exchanges', type: LINK_TYPE },
+    { path: '/markets', name: 'Markets', type: LINK_TYPE },
+    { path: '/trades', name: 'Trades', type: LINK_TYPE },
+    { path: '/coins', name: 'Coins', type: LINK_TYPE },
+    { type: SEPARATOR_TYPE, auth: REQUIRED },
+    { path: '/board', name: 'Dashboard', type: LINK_TYPE, auth: REQUIRED },
+    { path: '/users', name: 'Users', type: LINK_TYPE, auth: REQUIRED },
+];
+
+
 const NavMenu = () => {
 
-    const LINK_TYPE = 0;
-    const SEPARATOR_TYPE = 1;
-
     const auth = useSelector(state => state.auth);
-
-    const menuItems = [
-        { path: '/', name: 'Dashboard', type: LINK_TYPE },
-        { path: '/exchanges', name: 'Exchanges', type: LINK_TYPE },
-        { path: '/markets', name: 'Markets', type: LINK_TYPE },
-        { path: '/trades', name: 'Trades', type: LINK_TYPE },
-        { path: '/coins', name: 'Coins', type: LINK_TYPE },
-        { type: SEPARATOR_TYPE, auth: REQUIRED },
-        { path: '/users', name: 'Users', type: LINK_TYPE, auth: REQUIRED }
-    ];
 
     const renderMenuItem = (menuItem) => {
         if(!auth.isAuth && menuItem.auth) {
