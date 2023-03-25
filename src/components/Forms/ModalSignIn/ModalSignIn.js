@@ -20,7 +20,7 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
     const handleSubmitNative = () => {
         return new Promise(async (resolve, reject) => {
             const urlSignIn = HOST + API_URI_SIGNIN;
-            console.log('Values: ',values);
+
             try {
                 const requestParams = {
                     method: 'POST',
@@ -32,7 +32,7 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
                 };
                 const objResponse = await uFetch(urlSignIn, requestParams);
                 const response = await objResponse.json();
-                console.log('Response: ', response);
+
                 // processing
                 if(response.result !== false) {
                     // save state in to store
@@ -42,23 +42,7 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
             } catch(e) {
                 console.log(e);
             }
-            /*
-            setTimeout(() => {
-                console.log('Was submitted, processing...');
-                resolve( JSON.stringify({
-                    result: false,
-                    errors: {
-                        email: [
-                            {valid: false, msg: 'Error\'s in email'},
-                            {valid: false, msg: 'Suntax error'}
-                        ],
-                        password: [
-                            {valid: false, msg: 'Wrong password!'}
-                        ]
-                    }
-                }) );
-            }, 2000)
-            */
+
         })
     }
 

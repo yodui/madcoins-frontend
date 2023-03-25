@@ -51,11 +51,15 @@ const useForm = (handleSubmitCallback, options) => {
     }
 
     useEffect(() => {
+        resetValues();
+        setValidators(initValidators());
+    }, []);
+
+    const resetValues = () => {
         const initialValues = {};
         fields.forEach(fieldName => initialValues[fieldName] = '');
         setValues(initialValues);
-        setValidators(initValidators());
-    }, []);
+    }
 
     useEffect(() => {
         fields.forEach(fieldName => {
@@ -287,9 +291,11 @@ const useForm = (handleSubmitCallback, options) => {
             setFormSending(true);
             const response = await handleSubmitCallback();
             // enable submit buttons
-            if(response.result === false) {
-                // parse errors
-                parseBackendErrors(response.fields);
+            if(response.hasOwnProperty('result') && response.result === false) {
+                // parse errors if exists
+                if(response.hasOwnProperty('errors')) {
+                    parseBackendErrors(response.errors);
+                }
             }
             setFormSending(false);
         }
@@ -297,10 +303,10 @@ const useForm = (handleSubmitCallback, options) => {
 
     const parseBackendErrors = (fields) => {
         let backendAlerts = {};
-        for(const [k, v] of Object.entries(fields)) {
-            if(!backendAlerts[v.field]) backendAlerts[v.field] = [];
-            for(let error of v.errors) {
-                backendAlerts[v.field].push({ msg: error });
+        for(const [k, f] of Object.entries(fields)) {
+            if(!backendAlerts[f.field]) backendAlerts[f.field] = [];
+            for(let error of f.errors) {
+                backendAlerts[f.field].push({ msg: error });
             }
         }
         setAlerts(backendAlerts);
@@ -334,13 +340,20 @@ const useForm = (handleSubmitCallback, options) => {
         }
     }
 
+    const handleReset = () => {
+        resetValues();
+        setFormSending(false);
+        setFormSubmitted(false);
+    }
+
     return {
         values,
         validators,
         alerts,
         handleSubmit,
         inputProps,
-        submitProps
+        submitProps,
+        handleReset
     }
 }
 

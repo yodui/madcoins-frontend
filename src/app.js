@@ -1,4 +1,4 @@
-import react from 'react';
+import react, { useRef, useEffect } from 'react';
 import './styles.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -18,8 +18,13 @@ import DashboardPage from './pages/Dashboard';
 
 import SignInPage from './pages/Signin';
 
+import useWebsocket from './hooks/useWebsocket';
+
 
 const App = () => {
+
+    const ws = useWebsocket();
+
     return (
         <Provider store={store}>
             <Router>
