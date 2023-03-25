@@ -1,3 +1,5 @@
+import { emailExists } from './validationFunctions.js';
+
 const validatorsSignUp = {
     email: {
         highlightOnSubmit: true,
@@ -13,28 +15,13 @@ const validatorsSignUp = {
                 break: true
             },
             custom: {
-                check: (value, stateIndex) => new Promise((resolve, reject) => {
-                    const min = 500;
-                    const max = 5000;
-                    const timing = Math.floor(Math.random() * (max - min) + min);
-                    setTimeout(() => {
-                        const result = (Math.round(Math.random())) ? true : false;
-                        resolve({
-                            valid: result,
-                            stateIndex: stateIndex,
-                            responseMsg: (result) ? `Valid! ${timing} / ${stateIndex}` : `Not valid! :( ${timing} / ${stateIndex}`
-                        });
-                    }, timing);
-                }),
+                check: emailExists,
                 alwaysShow: true,
                 msg: 'Checking email...',
                 view: {
                     default: { className: 'tip' },
                     success: { className: 'success', iconName: 'check' },
                     error: { className: 'error', iconName: 'close' }
-                },
-                callback: val => {
-                    console.log(`callback, email ${val} is already taken`);
                 }
             }
         }
@@ -48,7 +35,7 @@ const validatorsSignUp = {
                 break: true
             },
             regex: {
-                pattern: /^[abcdex][\d]{3}$/i,
+                pattern: /^[a-fx][\d]{3,7}$/i,
                 msg: 'Syntax invite code is not valid',
                 realtime: true
             }
@@ -105,60 +92,7 @@ const validatorsSignUp = {
                         }
                     }
                 }
-            ],
-            /*custom: [
-                {
-                    check: (value, stateIndex) => new Promise((resolve, reject) => {
-                        const min = 500;
-                        const max = 5000;
-                        const timing = Math.floor(Math.random() * (max - min) + min);
-                        setTimeout(() => {
-                            const isValid = (Math.round(Math.random())) ? true : false;
-                            resolve({
-                                valid: isValid,
-                                stateIndex: stateIndex,
-                                responseMsg: (isValid) ? 'valid!' : 'Not valid ;(('
-                            });
-                        }, timing);
-                    }),
-                    msg: 'Checking password...',
-                    alwaysShow: true,
-                    break: true,
-                    view: {
-                        default: { className: 'tip' },
-                        success: { className: 'success', iconName: 'check' },
-                        error: { iconName: 'close' }
-                    },
-                    callback: val => {
-                        console.log(`callback, password is strong!`);
-                    }
-                },
-                {
-                    check: (value, stateIndex) => new Promise((resolve, reject) => {
-                        const min = 500;
-                        const max = 5000;
-                        const timing = Math.floor(Math.random() * (max - min) + min);
-                        setTimeout(() => {
-                            const isValid = (Math.round(Math.random())) ? true : false;
-                            resolve({
-                                valid: isValid,
-                                stateIndex: stateIndex,
-                                responseMsg: (isValid) ? 'Last check is valid!' : 'Last fail...'
-                            });
-                        }, timing);
-                    }),
-                    msg: 'Last check...',
-                    alwaysShow: true,
-                    view: {
-                        default: { className: 'tip' },
-                        success: { className: 'success', iconName: 'check' },
-                        error: { className: 'error', iconName: 'account' }
-                    },
-                    callback: val => {
-                        console.log(`callback, last checking!`);
-                    }
-                },
-            ]*/
+            ]
         }
     }
 }

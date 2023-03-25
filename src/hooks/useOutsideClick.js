@@ -11,7 +11,7 @@ const useOutsideClick = (ref, callback) => {
         };
 
         document.addEventListener('click', listener);
-        document.addEventListener('touchstart', listener)
+        document.addEventListener('touchstart', listener);
 
         return () => {
             document.removeEventListener('click', listener);

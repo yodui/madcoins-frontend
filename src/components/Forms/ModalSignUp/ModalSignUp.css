@@ -1,7 +1,7 @@
 /* SignUp */
 
 .signUpModal .modal {
-    width:560px;
+    width:600px;
 }
 
 .signUpModal .cols {
@@ -79,4 +79,18 @@
 
 .alphaAttention p:not(:last-of-type) {
     padding-bottom: var(--m);
+}
+
+.signUpModal .submitResults > strong {
+    color: var(--color-tip-completed);
+    font-weight: 400;
+}
+
+.signUpModal .submitResults p {
+    color: var(--color-text)
+}
+
+.signUpModal .resultsBar {
+    display: flex;
+    gap: var(--l);
 }
