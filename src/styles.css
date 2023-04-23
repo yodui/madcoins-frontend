@@ -38,12 +38,14 @@ h1 {
 
     --color-dark: #151B25;
     --color-second: #283342;
+    --color-first: #232e3d;
     --color-third: #3a495e;
     --color-fourth: #AEB8C8;
 
     --color-text: #AEB8C8;
     --color-tip-text: #8ba6d3;
     --color-tip-completed: #528a16;
+    --color-pending: #f1a44d;
     --color-sub-text: #546579;
     --color-link: #8f65be;
 

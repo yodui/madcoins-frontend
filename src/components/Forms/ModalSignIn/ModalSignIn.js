@@ -8,18 +8,18 @@ import validatorsSignIn from './validatorsSignIn';
 import Loader from '../../Common/Loader/Loader';
 import { uFetch } from '../../../functions/uFetch';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../../../store/actions/AuthActions';
 
-import { HOST, API_URI_SIGNIN } from '../../../constants/common';
+import { BACKEND_HOST, BACKEND_PORT, API_URI_SIGNIN } from '../../../constants/common';
 
-const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
+const ModalSignIn = ({handleClose, handleFormSwitcher}) => {
 
     const dispatch = useDispatch();
 
     const handleSubmitNative = () => {
         return new Promise(async (resolve, reject) => {
-            const urlSignIn = HOST + API_URI_SIGNIN;
+            const urlSignIn = BACKEND_HOST + ':' + BACKEND_PORT + API_URI_SIGNIN;
 
             try {
                 const requestParams = {
@@ -46,9 +46,11 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
         })
     }
 
+    const showMode = useSelector((state) => state.modal.signIn);
+
     const {values, handleSubmit, inputProps, submitProps} = useForm(handleSubmitNative, validatorsSignIn);
 
-    return <Modal name='SignIn' className='signInModal' show={show} handleClose={handleClose}>
+    return <Modal name='SignIn' className='signInModal' show={showMode} handleClose={handleClose}>
         <form className='signInForm' onSubmit={handleSubmit}>
             <InputLabel label='E-mail' rightIcon='email-outline' { ...inputProps('email') } />
             <InputLabel label='Password' { ...inputProps('password') } type='password' />
@@ -61,3 +63,4 @@ const ModalSignIn = ({show, handleClose, handleFormSwitcher}) => {
 }
 
 export default ModalSignIn;
+

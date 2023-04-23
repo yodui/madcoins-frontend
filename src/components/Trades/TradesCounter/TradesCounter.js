@@ -1,52 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './TradesCounter.css';
 
-const TradesCounter = () => {
+import { connect } from 'react-redux';
+import { subscribeToDataSet, unsubscribeToDataSet } from '../../../store/actions/WsActions';
 
-    const [totalTrades, setTotalTrades] = useState(0);
-    const [data, setData] = useState();
-    const [status, setStatus] = useState();
+import useSubscribes from '../../../hooks/useSubscribes';
+import * as SUB from '../../../constants/subscribes';
 
-    const API_TRADES_COUNT = 'http://localhost:3000/api/trades/count';
+const TradesCounter = ({totalTrades, subscribe, unsubscribe}) => {
 
-    const WS_TRADES_FEED_COUNTER = 'ws://localhost:3037';
+    const subscribeGroup = [SUB.TRADES_STAT];
 
-    const ws = useRef(null);
-
-    useEffect(() => {
-        subscribeToTradesCounter()
-    }, []);
-
-    const subscribeToTradesCounter = () => {
-        console.log('Subscribe to...');
-        ws.current = new WebSocket(WS_TRADES_FEED_COUNTER);
-        ws.current.onopen = () => setStatus("Connection opened");
-        ws.current.onclose = (e) => {
-            if(e.wasClean) {
-                setStatus("Connection clean closed");
-            } else {
-                setStatus("Connection interrupted");
-            }
-        };
-        ws.current.onerror = (e) => {
-            console.log(`Socket error: ${e.message}`);
-        };
-
-        ws.current.onmessage = e => {
-            const message = JSON.parse(e.data);
-            console.log(message);
-            //setData(message);
-        }
-    }
-
-    const fetchTradesCount = async () => {
-        const response = await fetch(API_TRADES_COUNT);
-        const json = await response.json();
-        setTotalTrades(json.totalTrades);
-    }
+    useSubscribes(subscribeGroup);
 
     return (
-        <div className='tradesCounter'>Data: {data}</div>
+        <div className='tradesCounter'>{totalTrades}</div>
     )
 }
 

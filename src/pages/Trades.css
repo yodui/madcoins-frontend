@@ -1,0 +1,16 @@
+.pageHeader {
+    width: 100%;
+    display: flex;
+    gap: var(--l);
+    align-items: center;
+    justify-content: center;
+}
+
+.pageHeader h1 {
+    width:80%;
+}
+
+.pageHeader .stat {
+    width:20%;
+    display: flex;
+}

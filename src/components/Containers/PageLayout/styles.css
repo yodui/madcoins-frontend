@@ -15,3 +15,30 @@
 .contentPage {
     padding: var(--l);
 }
+
+.watchTickers {
+    margin-top: 1px;
+    display: flex;
+    padding: 0 var(--l);
+    background: var(--color-first);
+    height: 32px;
+    align-items: center;
+}
+
+.watchTickers .asset {
+    display: inline-flex;
+    gap: var(--m);
+}
+
+.watchTickers .asset .item {
+    font-weight: 600;
+}
+
+.watchTickers .asset .ticker {
+    display: inline-flex;
+    gap: var(--xs);
+}
+
+.watchTickers .asset .ticker {
+
+}

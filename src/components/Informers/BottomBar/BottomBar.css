@@ -18,6 +18,32 @@
     color: var(--color-sub-text);
 }
 
-.bottomBar .barItem .userData {
+.bottomBar .barItem .userState {
     color: var(--color-text);
+}
+
+
+.bottomBar .state .bullet {
+    display: inline-flex;
+    margin-right: var(--xs);
+}
+
+.bottomBar .state.disconnected .bullet, .bottomBar .state.wrongAccessToken .bullet {
+    background: var(--color-error-input-border);
+}
+
+.bottomBar .state.authorization .bullet {
+    background: var(--color-pending);
+}
+
+.bottomBar .state.connected .bullet {
+    background: var(--green);
+}
+
+.bottomBar .bullet {
+    width:10px;
+    height:10px;
+    border-radius: 50%;
+    display: inline-block;
+    background: #f1f1f1;
 }

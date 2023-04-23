@@ -1,5 +1,5 @@
 import { uFetch } from '../../../functions/uFetch';
-import { HOST, API_URI_EMAIL_EXISTS } from '../../../constants/common';
+import { BACKEND_HOST, BACKEND_PORT, API_URI_EMAIL_EXISTS } from '../../../constants/common';
 
 const asyncTest = async (value, stateIndex) => new Promise((resolve, reject) => {
     const min = 500;
@@ -16,7 +16,7 @@ const asyncTest = async (value, stateIndex) => new Promise((resolve, reject) => 
 });
 
 const emailExists = async (value, stateIndex) => new Promise(async (resolve, reject) => {
-    const uriEmailExists = HOST + API_URI_EMAIL_EXISTS;
+    const uriEmailExists = BACKEND_HOST + ':' + BACKEND_PORT + API_URI_EMAIL_EXISTS;
     const requestParams = {
         method: 'POST',
         cache: 'no-cache',

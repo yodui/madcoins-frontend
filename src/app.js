@@ -1,53 +1,45 @@
-import react, { useRef, useEffect } from 'react';
-import './styles.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import react from 'react';
+import { Routes, Route, useRoutes, Outlet, useParams } from 'react-router-dom';
 
 import { store } from './store/configureStore';
 import { Provider } from 'react-redux';
 
 import PageLayout from './components/Containers/PageLayout/PageLayout';
 
+import * as Page from './pages';
+import * as PrivatePage from './pages/private';
+
 import RouteGuard from './components/Private/RouteGuard/RouteGuard';
+import WsController from './components/WebSocket/WsController';
 
-import UsersPage from './pages/Users';
-import MainPage from './pages/MainPage';
-import ExchangesPage from './pages/Exchanges';
-import TradesPage from './pages/Trades';
-import MarketsPage from './pages/Markets';
-import DashboardPage from './pages/Dashboard';
+import './styles.css';
 
-import SignInPage from './pages/Signin';
+const routes = [
+    // public parts:
+    { path: '/', element: <Page.Home /> },
+    { path: '/exchanges', element: <Page.Exchanges /> },
+    { path: '/markets', element: <Page.Markets /> },
+    { path: '/trades', element: <Page.Trades /> },
+    { path: '/coins', element: <Page.Coins /> },
+    // public technical pages:
+    { path: '/activation/:code', element: <Page.Activation /> },
+    // private pages:
+    { path: '/board', element: <RouteGuard redirect="/" component={<PrivatePage.Dashboard />} /> },
+    { path: '/users', element: <RouteGuard redirect="/" component={<PrivatePage.Users />} /> }
+];
 
-import useWebsocket from './hooks/useWebsocket';
+const PageComponent = () => useRoutes(routes);
 
+const App = () => <Provider store={store}>
+    <WsController />
+    <PageLayout>
+        <PageComponent />
+    </PageLayout>
+</Provider>
 
-const App = () => {
-
-    const ws = useWebsocket();
-
-    return (
-        <Provider store={store}>
-            <Router>
-                <PageLayout>
-                    <Routes>
-                        <Route path="/" element={<MainPage />} />
-
-                        <Route path="/exchanges" element=<ExchangesPage /> />
-                        <Route path="/markets" element=<MarketsPage /> />
-                        <Route path="/trades" element=<TradesPage /> />
-
-                        <Route path="/board" element=<DashboardPage /> />
-                        <Route path="/users" element={
-                            <RouteGuard redirect="/">
-                                <UsersPage />
-                            </RouteGuard>
-                        } />
-                        <Route path="/signin" element=<SignInPage /> />
-                    </Routes>
-                </PageLayout>
-            </Router>
-        </Provider>
-    )
+const Test = () => {
+    let {id} = useParams();
+    return <>test {id}</>
 }
 
 export default App;

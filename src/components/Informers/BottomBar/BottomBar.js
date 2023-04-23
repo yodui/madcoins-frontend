@@ -1,28 +1,51 @@
 import React from 'react';
 import '../BottomBar/BottomBar.css';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
-const BottomInformer = ({auth}) => {
+import * as STATE from '../../../constants/connection';
+
+import Icon from '../../Common/Icon/Icon';
+
+const BottomInformer = () => {
+
+
+    const connectionState = useSelector(state => state.ws.connectionState);
+    const auth = useSelector(state => state.auth);
 
     const renderUserInfo = () => {
-        if(auth.isAuth) {
-            return <div className='userData'>Authorized <span className='email'>{auth.user.email}</span></div>
+        if(auth.isAuth === true) {
+            return <span className='userState'><Icon name='check-all' size={16} /></span>
         } else {
             return <>Unauthorized</>
         }
     }
 
+    const renderConnectionState = () => {
+
+        let state = { name: false, cls: false };
+
+        if(connectionState === STATE.DISCONNECTED) {
+            state.cls = 'disconnected';
+            state.name = 'Disconnected';
+        } else if(connectionState === STATE.NEED_AUTH) {
+            state.cls = 'authorization';
+            state.name = 'Authorization...';
+        } else if(connectionState === STATE.WRONG_ACCESS_TOKEN) {
+            state.cls = 'wrongAccessToken';
+            state.name = 'Access denied';
+        } else {
+            state.cls = 'connected';
+            state.name = 'Connected';
+        }
+
+        return <span className={['state',state.cls].join(' ')}><span className='bullet'></span>{state.name}</span>
+    }
+
     return <div className='bottomBar'>
-        <div className='barItem connection'>Connection state: <span>?</span></div>
+        <div className='barItem connection'>Connection: { renderConnectionState() }</div>
         <div className='barItem'>Auth: <span>{ renderUserInfo() }</span></div>
     </div>
 }
 
-const mapStateToProps = (store) => {
-    console.log(store); // let's see what we have in store
-    return {
-        auth: store.auth
-    }
-}
 
-export default connect(mapStateToProps)(BottomInformer);
+export default BottomInformer;

@@ -1,7 +1,7 @@
 import React from 'react';
-import Box from '../components/Containers/Box/Box';
+import Box from '../../components/Containers/Box/Box';
 
-import UsersList from '../components/Users/UsersList/UsersList';
+import UsersList from '../../components/Users/UsersList/UsersList';
 
 const UsersPage = () => {
     return (

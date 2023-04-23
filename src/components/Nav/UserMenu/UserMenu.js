@@ -11,42 +11,45 @@ import UserAva from '../../Common/UserAva/UserAva';
 import DropDownItem from '../../Common/DropDown/DropDownItem';
 import DropDownSeparator from '../../Common/DropDown/DropDownSeparator';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { logOut  } from '../../../store/actions/AuthActions';
+import { connect, useDispatch, useSelector } from 'react-redux';
+// actions
+import { showSignIn, hideSignIn, showSignUp, hideSignUp } from '../../../store/actions/ModalActions';
+import { logOut } from '../../../store/actions/AuthActions';
 
 import { uFetch } from '../../../functions/uFetch';
 import DropDown from '../../Common/DropDown/DropDown';
-import { S, M, HOST, API_URI_LOGOUT } from '../../../constants/common';
+import { S, M, BACKEND_HOST, BACKEND_PORT, API_URI_LOGOUT } from '../../../constants/common';
 
 const UserMenu = () => {
 
     const dispatch = useDispatch();
 
-    const [openSignIn, setSignIn] = useState(false);
-    const [openSignUp, setSignUp] = useState(false);
+    const isSignInOpened = useSelector(state => state.modal.signIn);
+    const isSignUpOpened = useSelector(state => state.modal.signUp);
 
-    const auth = useSelector((state) => state.auth);
+    const auth = useSelector(state => state.auth);
 
     useEffect(() => {
         if(auth.isAuth === true) {
             // hide all modals
-            setSignIn(false);
-            setSignUp(false);
+            dispatch(hideSignIn());
+            dispatch(hideSignUp());
         }
     }, [auth]);
 
-    const handleOpenSignInModal = () => setSignIn(true);
-    const handleCloseSignInModal = () => setSignIn(false);
-    const handleOpenSignUpModal = () => setSignUp(true);
-    const handleCloseSignUpModal = () => setSignUp(false);
+    const handleOpenSignInModal = () => dispatch(showSignIn());
+    const handleCloseSignInModal = () => dispatch(hideSignIn());
+
+    const handleOpenSignUpModal = () => dispatch(showSignUp());
+    const handleCloseSignUpModal = () => dispatch(hideSignUp());
 
     const switchModals = () => {
-        if(openSignIn) {
-            setSignIn(false);
-            setSignUp(true);
+        if(isSignInOpened) {
+            dispatch(hideSignIn());
+            dispatch(showSignUp());
         } else {
-            setSignIn(true);
-            setSignUp(false);
+            dispatch(showSignIn());
+            dispatch(hideSignUp());
         }
     }
 
@@ -54,8 +57,8 @@ const UserMenu = () => {
         return <>
             <Button variant='text' className='white' leftIcon='login' onClick={handleOpenSignInModal} label='Sign In' />
             <Button variant='text' className='purple' leftIcon='account' onClick={handleOpenSignUpModal} label='Sign Up' />
-            <ModalSignIn show={openSignIn} handleClose={handleCloseSignInModal} handleFormSwitcher={switchModals} />
-            <ModalSignUp show={openSignUp} handleClose={handleCloseSignUpModal} handleFormSwitcher={switchModals} />
+            <ModalSignIn handleClose={handleCloseSignInModal} handleFormSwitcher={switchModals} />
+            <ModalSignUp handleClose={handleCloseSignUpModal} handleFormSwitcher={switchModals} />
         </>
     }
 
@@ -72,18 +75,17 @@ const UserMenu = () => {
         }
 
         const handleLogout = async () => {
-            const logOutUrl = HOST + API_URI_LOGOUT;
+            const logOutUrl = BACKEND_HOST + ':' + BACKEND_PORT + API_URI_LOGOUT;
+            console.log('Call', logOutUrl);
             // Call backend endpoint for clear refreshToken
-            console.log(logOutUrl);
             const requestParams = {
                 method: 'GET',
                 cache: 'no-cache'
             };
-            const objResponse = await uFetch(logOutUrl, requestParams);
 
+            const objResponse = await uFetch(logOutUrl, requestParams);
             const response = await objResponse.json();
 
-            console.log('LogOut endpoint response: ', response);
             // processing response
             if(response.result !== false) {
                 // Local logout
@@ -102,12 +104,13 @@ const UserMenu = () => {
             <DropDownItem iconName='logout' text='LogOut' { ...logOutProps } />,
         ];
 
-        return <DropDown width='auto' isOpened={true} trigger={userAva} menuItems={buttons} />
+        return <DropDown width='auto' isOpened={false} trigger={userAva} menuItems={buttons} />
     }
 
     return <ul className='userMenu'>
         { auth.isAuth === true ? renderUserProfile() : renderAuthMenu() }
     </ul>
 }
+
 
 export default UserMenu;
