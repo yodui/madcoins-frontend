@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import DataGrid from '../../Containers/DataGrid/DataGrid';
 import Icon from '../../../components/Common/Icon/Icon';
 
+import { uFetch } from '../../../functions/uFetch';
+
 import './UsersList.css';
 
 const UsersList = () => {
@@ -27,7 +29,7 @@ const UsersList = () => {
     const [users, setUsers] = useState([]);
 
     const fetchUsersData = async () => {
-        const response = await fetch(API_LIST_USERS);
+        const response = await uFetch(API_LIST_USERS);
         const json = await response.json();
         setTotalUsers(json.count);
         const formattedData = formatFields(json.rows);

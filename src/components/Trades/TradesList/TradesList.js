@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import DataGrid from '../../Containers/DataGrid/DataGrid';
 import {IPaginationsOption} from '../../Containers/DataGrid/DataGrid';
-import TradesCounter from '../TradesCounter/TradesCounter';
+
 import Modal from '../../Common/Modal/Modal';
+import { uFetch } from '../../../functions/uFetch';
 import './TradesList.css';
+
+import useSubscribes from '../../../hooks/useSubscribes';
+import * as SUB from '../../../constants/subscribes';
+
 
 const columns = [
     { id: 'tradeid', label: 'Trade Id', width: '10%' },
@@ -20,19 +25,31 @@ const TradesList = () => {
     const [activePage, setActivePage] = useState(1);
     const [totalTrades, setTotalTrades] = useState(false);
 
+    const subscribes = [SUB.TRADES_STAT, SUB.TRADES_INSERT];
+    useSubscribes(subscribes);
+
+    let lastLoadedTradeId = false;
+
     const TRADES_LIMIT = 20;
     const API_LIST_TRADES = 'http://localhost:3000/api/trades';
 
     const fetchTradesData = async () => {
 
         const params = new URLSearchParams({limit: TRADES_LIMIT, offset: offset}).toString();
-        const response = await fetch(API_LIST_TRADES + '?' + params);
+        const response = await uFetch(API_LIST_TRADES + '?' + params);
 
         const trades = await response.json();
         // update total trades
         setTotalTrades(trades.count);
 
         const tradesData = formatTrades(trades.rows);
+        if(tradesData && tradesData.length) {
+            // get last trade id on page
+            lastLoadedTradeId = tradesData[0].tradeid;
+            console.log('Last loaded trade id:', lastLoadedTradeId);
+            console.log('Page:', activePage);
+        }
+
         // update list of trades
         setTrades(tradesData);
     }
@@ -94,5 +111,6 @@ const TradesList = () => {
         </div>
     )
 }
+
 
 export default TradesList;

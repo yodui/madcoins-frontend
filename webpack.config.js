@@ -13,6 +13,7 @@ module.exports = {
         app: path.resolve(__dirname, SRC_DIR, "index.js")
     },
     output: {
+        publicPath: '/',
         path: path.resolve(__dirname, DIST_DIR),
         filename: production ? '[name].[contenthash].js' : '[name].js'
     },

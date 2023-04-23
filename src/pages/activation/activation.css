@@ -1,0 +1,22 @@
+.activationResult {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s);
+}
+
+.activationResult .activationCode {
+    background: var(--color-third);
+    color: white;
+    display: inline-block;
+    border-radius: var(--xs);
+    padding: var(--xs) var(--s);
+    letter-spacing: 0.05em;
+}
+
+.activationResult .activationCode.correct {
+    background: var(--color-tip-completed);
+}
+
+.activationResult .check {
+    color: var(--green);
+}

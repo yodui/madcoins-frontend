@@ -10,12 +10,16 @@ import { useForm, registerSubmit } from '../../../hooks/useForm';
 import validatorsSignUp from './validatorsSignUp';
 import { uFetch } from '../../../functions/uFetch';
 
-import { HOST, API_URI_SIGNUP } from '../../../constants/common';
+import { useSelector } from 'react-redux';
+
+import { BACKEND_HOST, BACKEND_PORT, API_URI_SIGNUP } from '../../../constants/common';
 
 
-const ModalSignUp = ({show, handleClose, handleFormSwitcher}) => {
+const ModalSignUp = ({handleClose, handleFormSwitcher}) => {
 
-    const [submitResult, setSubmitResult] = useState(true);
+    const showMode = useSelector((state) => state.modal.signUp);
+
+    const [submitResult, setSubmitResult] = useState(false);
     const [modalTitle, setModalTitle] = useState('Sign Up');
 
     let userEmail = false;
@@ -23,7 +27,7 @@ const ModalSignUp = ({show, handleClose, handleFormSwitcher}) => {
     const handleSubmitNative = () => {
         return new Promise(async (resolve, reject) => {
 
-            const urlSignUp = HOST + API_URI_SIGNUP;
+            const urlSignUp = BACKEND_HOST + ':' + BACKEND_PORT + API_URI_SIGNUP;
 
             try {
                 const requestParams = {
@@ -103,12 +107,12 @@ const ModalSignUp = ({show, handleClose, handleFormSwitcher}) => {
         <strong>Your registration is almost complete.<br />Please check your email and follow the link in the email.</strong>
         <p>After activating with email, you will be automatically logged in.</p>
         <div className='resultsBar'>
-            <Button label={'Ok, i\'ll go checked email'} variant='contained' leftIcon='email-outline' onClick={handleClose} />
+            <Button label={'Ok, i\'ll go check email'} variant='contained' leftIcon='email-outline' onClick={handleClose} />
             <Button label={'Back to form'} variant='outlined' onClick={handleBackToForm} />
         </div>
     </div>);
 
-    return <Modal name={modalTitle} className='signUpModal' show={show} handleClose={handleClose}>
+    return <Modal name={modalTitle} className='signUpModal' show={showMode} handleClose={handleClose}>
         { !submitResult ? renderForm() : renderSubmitResults() }
     </Modal>
 }
