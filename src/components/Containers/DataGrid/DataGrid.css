@@ -16,7 +16,7 @@
 }
 
 .table .tableHeader .row > div {
-    color: var(--color-sub-text)
+    color: var(--color-text-second)
 }
 
 .table .row {
@@ -72,13 +72,14 @@
 
 
 .pagination .page.active {
-    border-color: var(--color-purple);
-    color: var(--color-text-purple);
+    border-color: transparent;
+    background: #4e237d;/*var(--color-blue-hover);*/
+    color: #af8bd6;
 }
 
 .pagination .page:hover {
-    border-color: var(--color-purple);
-    color: var(--color-text-purple);
+    border-color: var(--color-violet);
+    color: var(--color-link);
 }
 
 .pagination .page:active {
@@ -89,5 +90,5 @@
 .showWindow {
     display: inline-flex;
     justify-content: center;
-    color: var(--color-sub-text);
+    color: var(--color-text-second);
 }

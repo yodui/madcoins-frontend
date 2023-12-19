@@ -46,6 +46,7 @@ const UserMenu = () => {
     const handleCloseSignUpModal = () => dispatch(hideSignUp());
 
     const switchModals = () => {
+        /*
         if(isSignInOpened) {
             dispatch(hideSignIn());
             dispatch(showSignUp());
@@ -53,6 +54,8 @@ const UserMenu = () => {
             dispatch(showSignIn());
             dispatch(hideSignUp());
         }
+
+        */
     }
 
     const renderAuthMenu = () => {

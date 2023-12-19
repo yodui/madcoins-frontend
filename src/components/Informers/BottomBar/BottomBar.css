@@ -8,7 +8,7 @@
     display: flex;
     gap: var(--xl);
     padding: 6px var(--l) 8px var(--l);
-    border-top: 1px solid var(--color-dark);
+    border-top: 1px solid var(--color-border);
 }
 
 .bottomBar .name {
@@ -19,7 +19,7 @@
     display: flex;
     align-items: center;
     gap: var(--s);
-    color: var(--color-sub-text);
+    color: var(--color-text-second);
 }
 
 .bottomBar .barItem .userState {

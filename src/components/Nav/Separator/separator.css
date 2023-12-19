@@ -1,4 +1,6 @@
 .separator {
-    border-left:1px solid var(--color-third);
+    border-left:1px solid var(--color-border);
     border-right:1px solid var(--color-dark);
+    height: 100%;
+    margin: 0;
 }
