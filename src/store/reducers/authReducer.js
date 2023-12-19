@@ -1,7 +1,14 @@
 import { AUTH_SIGN_IN, AUTH_LOGOUT } from '../actions/AuthActions';
 import { LS_USER } from '../../constants/common';
 
-const user = JSON.parse(localStorage.getItem(LS_USER));
+
+const userData = localStorage.getItem(LS_USER);
+let user = null;
+console.log(typeof userData);
+if(userData) {
+    console.log('UserData:', userData);
+    user = JSON.parse(userData);
+}
 
 export const initialState = {
     isAuth: user ? true : false,

@@ -1,5 +1,9 @@
-export const TRADES_STAT = 'tradesStat';
-export const TRADES_INSERT = 'tradesInsert';
+export const TRADE_STAT = 'tradeStat';
+export const TRADE_INSERT = 'tradeInsert';
+
+export const LAST_TRADES = 'lastTrades';
+
+export const ONLINE_MARKETS = 'onlineMarkets';
 
 export const TEST = 'testSub';
 export const TEST2 = 'testSub2';

@@ -1,6 +1,8 @@
 import react, { useState, useEffect } from 'react';
 import './UserMenu.css';
 
+import { useNavigate } from "react-router-dom";
+
 import ModalSignIn from '../../Forms/ModalSignIn/ModalSignIn';
 import ModalSignUp from '../../Forms/ModalSignUp/ModalSignUp';
 
@@ -64,6 +66,9 @@ const UserMenu = () => {
 
     const renderUserProfile = () => {
 
+        const navigate = useNavigate();
+        const [isOpened, setOpened] = useState(false);
+
         const userAva = <UserAva email={auth.user.email} size={M} />
 
         const handleToggleTheme = () => {
@@ -71,7 +76,8 @@ const UserMenu = () => {
             return true;
         }
 
-        const handleTestToggle = () => {
+        const handleSettingsClick = () => {
+            navigate('/account/settings');
         }
 
         const handleLogout = async () => {
@@ -99,12 +105,12 @@ const UserMenu = () => {
 
         const buttons = [
             <DropDownItem iconName='moon' text='Dark Theme' component=<Switch checked={true} callback={handleToggleTheme} /> />,
-            <DropDownItem iconName='moon' text='Test toggle' component=<Switch checked={false} callback={handleTestToggle} /> />,
+            <DropDownItem iconName='cog-outline' text='Settings' callback={handleSettingsClick} closeTrigger={true} />,
             <DropDownSeparator />,
             <DropDownItem iconName='logout' text='LogOut' { ...logOutProps } />,
         ];
 
-        return <DropDown width='auto' isOpened={false} trigger={userAva} menuItems={buttons} />
+        return <DropDown width='auto' isOpened={isOpened} trigger={userAva} menuItems={buttons} />
     }
 
     return <ul className='userMenu'>

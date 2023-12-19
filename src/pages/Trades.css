@@ -7,10 +7,5 @@
 }
 
 .pageHeader h1 {
-    width:80%;
-}
-
-.pageHeader .stat {
-    width:20%;
-    display: flex;
+    width:100%;
 }

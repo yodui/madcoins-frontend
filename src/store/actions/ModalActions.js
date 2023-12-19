@@ -6,7 +6,6 @@ export const HIDE_SIGN_UP = 'modal/HIDE_SIGN_UP';
 
 
 const showSignIn = () => {
-    console.log('Show sign in!');
     return {
         type: SHOW_SIGN_IN,
         payload: { signIn: true }
@@ -14,7 +13,6 @@ const showSignIn = () => {
 }
 
 const hideSignIn = () => {
-    console.log('Hide sign in!');
     return {
         type: HIDE_SIGN_IN,
         payload: { signIn: false }
@@ -22,7 +20,6 @@ const hideSignIn = () => {
 }
 
 const showSignUp = () => {
-    console.log('Show sign up!');
     return {
         type: SHOW_SIGN_UP,
         payload: { signUp: true }
@@ -30,7 +27,6 @@ const showSignUp = () => {
 }
 
 const hideSignUp = () => {
-    console.log('Hide sign up!');
     return {
         type: HIDE_SIGN_UP,
         payload: { signUp: false }

@@ -32,3 +32,17 @@
     font-size: 0.9em;
     color:var(--color-text);
 }
+
+.lastTrade {
+    animation-name: blink;
+    animation-fill-mode: forwards;
+    animation-duration: .3s;
+}
+
+@keyframes blink {
+    0% { color: inherit  }
+    50% { color: white }
+    100% { color: inherit }
+}
+
+

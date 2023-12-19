@@ -8,44 +8,47 @@ export const initialState = {
     subs: new Map() // set of subscriptions to data
 };
 
-// sign === false - decrement, sign === true - increment priority
-const updatePriority = (subs, dataSet, sign = false) => {
+// subs - current subscriptions
+// dataSet - name of subscribe data set
+// componentName - component name (subscriber)
+// inc - false - clear subscribe from component, true - add subscribe from component
+const updateSubscribe = (subs, dataSet, componentName, inc = false) => {
 
-    let priority = 1;
+    // subscribers to data set
+    let subscribers;
 
     if(subs.has(dataSet)) {
-        if(sign === true) {
-            priority = subs.get(dataSet) + 1;
+        subscribers = new Set([...subs.get(dataSet)]);
+        if (inc === true) {
+            subscribers.add(componentName);
         } else {
-            priority = subs.get(dataSet) - 1;
+            subscribers.delete(componentName);
+        }
+    } else {
+        subscribers = new Set();
+        if(inc === true) {
+            subscribers.add(componentName);
         }
     }
-    if(priority === 0) {
-        // clear data set
-        subs.delete(dataSet);
+
+    if(subscribers.size) {
+        subs.set(dataSet, subscribers);
     } else {
-        // update priority
-        subs.set(dataSet, priority);
+        if(subs.has(dataSet)) subs.delete(dataSet);
     }
+
     return subs;
 }
 
-const updateSubs = (state, action) => {
+const updateSubs = (state, payload, componentName, inc = false) => {
 
+    // create a Map from state.subs
     const subs = new Map([...state.subs]);
-    console.log('0:', subs);
 
-    const sign = (action.type === WS_SUBSCRIBE_TO_DATA_SET) ? true : false;
+    [...payload].forEach(ds => {
+        updateSubscribe(subs, ds, componentName, inc);
+    });
 
-    // processing action.payload
-    const dataSet = new Set([...action.payload]);
-
-    if(typeof action.payload === 'object' && action.payload.length) {
-        dataSet.forEach(item => updatePriority(subs, item, sign));
-    } else if(typeof action.payload === 'string') {
-        updatePriority(subs, dataSet, sign);
-    }
-    console.log('1:', subs);
     return { ...state, ...{ subs: subs } }
 }
 
@@ -56,10 +59,10 @@ export function wsReducer(state = initialState, action) {
             return { ...state, ...action.payload }
 
         case WS_SUBSCRIBE_TO_DATA_SET:
-            return updateSubs(state, action, true);
+            return updateSubs(state, action.payload.dataSets, action.payload.componentName, true);
 
         case WS_UNSUBSCRIBE_TO_DATA_SET:
-            return updateSubs(state, action, false);
+            return updateSubs(state, action.payload.dataSets, action.payload.componentName, false);
 
         default:
             return state;

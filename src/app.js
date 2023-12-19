@@ -21,8 +21,11 @@ const routes = [
     { path: '/markets', element: <Page.Markets /> },
     { path: '/trades', element: <Page.Trades /> },
     { path: '/coins', element: <Page.Coins /> },
+    { path: '/markets/:pair', element: <Test /> },
     // public technical pages:
     { path: '/activation/:code', element: <Page.Activation /> },
+    // account settings:
+    { path: '/account/settings', element: <Page.AccountSettings /> },
     // private pages:
     { path: '/board', element: <RouteGuard redirect="/" component={<PrivatePage.Dashboard />} /> },
     { path: '/users', element: <RouteGuard redirect="/" component={<PrivatePage.Users />} /> }
@@ -38,8 +41,8 @@ const App = () => <Provider store={store}>
 </Provider>
 
 const Test = () => {
-    let {id} = useParams();
-    return <>test {id}</>
+    let {pair} = useParams();
+    return <>test {pair}</>
 }
 
 export default App;
