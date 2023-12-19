@@ -1,5 +1,29 @@
+@font-face {
+    font-family: 'JBMono';
+    font-weight: 400;
+    src: local('JBMono'), url('assets/fonts/JBMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'JBMono';
+    font-weight: bold;
+    src: local('JBMono'), url('assets/fonts/JBMono-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'JBMono';
+    font-weight: 500;
+    src: local('JBMono'), url('assets/fonts/JBMono-Medium.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'JBMono';
+    font-weight: 300;
+    src: local('JBMono'), url('assets/fonts/JBMono-Light.woff2') format('woff2');
+}
+
 html, body {
-    font-family: Arial;
+    font-family: JBMono;
     font-size: 15px;
     padding:0;
     margin:0;

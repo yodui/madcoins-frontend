@@ -38,12 +38,12 @@ const BottomInformer = () => {
             state.name = 'Connected';
         }
 
-        return <span className={['state',state.cls].join(' ')}><span className='bullet'></span>{state.name}</span>
+        return <span className={['state','value',state.cls].join(' ')}><span className='bullet'></span>{state.name}</span>
     }
 
     return <div className='bottomBar'>
-        <div className='barItem connection'>Connection: { renderConnectionState() }</div>
-        <div className='barItem'>Auth: <span>{ renderUserInfo() }</span></div>
+        <div className='barItem connection'><span className='name'>Connection:</span> { renderConnectionState() }</div>
+        <div className='barItem'><span className='name'>Auth:</span> <span className='value'>{ renderUserInfo() }</span></div>
     </div>
 }
 
