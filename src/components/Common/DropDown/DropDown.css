@@ -9,13 +9,16 @@
 
 .dropDownWrapper .dropDown.closed {
     opacity: 0;
-    animation-delay: .1s;
+    visibility: hidden;
+    animation-delay: 0s;
     animation-name: hideDropDown;
+    animation-duration: .1s;
     animation-fill-mode: forwards;
+    transform: translateY(calc(100% + 20px));
 }
 
 .dropDownWrapper .dropDown.closing {
-    animation-duration: .1s;
+    animation-duration: .2s;
 }
 
 .dropDownWrapper .dropDown.opened {
@@ -25,23 +28,23 @@
 
 @keyframes hideDropDown {
     0% {
+        opacity: 1;
         visibility: visible;
     }
     100% {
+        opacity: 0;
         visibility: hidden;
     }
 }
 
-
-
 .dropDownWrapper .dropDown {
     position: absolute;
-    min-width: 240px;
+    min-width: 220px;
     background: var(--color-second);
-    box-shadow: 0 0px 10px rgba(0,0,0,.66);
+    box-shadow: 0 0 12px rgba(0,0,0,.5);
     border-radius: var(--border-radius);
-    transition: opacity .1s;
-    bottom:calc((-1) * var(--s));
+    transition: opacity .12s, transform .15s;
+    bottom: calc((-1) * var(--s));
     transform: translateY(100%);
 }
 

@@ -3,16 +3,16 @@ import { useDispatch } from 'react-redux';
 import { subscribeToDataSet, unsubscribeToDataSet } from '../store/actions/WsActions';
 
 
-const useSubscribes = (subscribes) => {
+const useSubscribes = (subscribes, componentName) => {
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         // subscribe
-        dispatch(subscribeToDataSet(subscribes));
+        dispatch(subscribeToDataSet(subscribes, componentName));
         return () => {
             // unsubscribe
-            dispatch(unsubscribeToDataSet(subscribes));
+            dispatch(unsubscribeToDataSet(subscribes, componentName));
         }
     }, []);
 }

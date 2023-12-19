@@ -5,7 +5,7 @@ import Switch from '../../Common/Switch/Switch';
 
 import './DropDownItem.css';
 
-const DropDownItem = ({iconName, text, type = 'normal', callback, component}) => {
+const DropDownItem = ({iconName, text, type = 'normal', callback, component, closeTrigger = false}) => {
 
     const cls = ['dropDownItem'];
 

@@ -2,10 +2,13 @@ import react, { useState, useRef, useEffect } from 'react';
 
 import { connect, useDispatch, useSelector } from 'react-redux';
 import * as STATE from '../../constants/connection';
+
 import { URI_WS, WS_PORT, BACKEND_HOST, BACKEND_PORT, API_URI_REFRESH_TOKEN } from '../../constants/common';
+import * as SUB from '../../constants/subscribes';
 
 import { setConnectionState } from '../../store/actions/WsActions';
 import { signIn } from '../../store/actions/AuthActions';
+import { updateTradeStat, insertTrade } from '../../store/actions/DataActions';
 
 import { uFetch } from '../../functions/uFetch';
 
@@ -16,28 +19,51 @@ const timeoutDelay = 4000;
 const WsController = () => {
 
     const dispatch = useDispatch();
-
     const auth = useSelector(state => state.auth);
     const connectionState = useSelector(state => state.ws.connectionState);
     const subs = useSelector(state => state.ws.subs);
 
     const [isInitialSubs, setInitialSubs] = useState(true);
-    const [reconnection, setReconnection] = useState(false);
+    const [isConnected, setConnection] = useState(false);
+    const [isReconnection, setReconnection] = useState(false);
 
     const ws = useRef(null);
     const timeout = useRef(null);
 
+    const staticSubs = useRef(subs);
+
     useEffect(() => {
-        if(reconnection === false && auth.isAuth === true) {
+        console.log('Change auth...');
+        console.log(auth.isAuth, isConnected, isReconnection);
+        if(auth.isAuth === true && isConnected === false && isReconnection === false) {
             connect();
+        } else if(auth.isAuth === false && isConnected === true) {
+            disconnect();
+        } else if(auth.isAuth === false) {
+            // reset reconnection state
+            setReconnection(false);
         }
-    }, [reconnection, auth]);
+    }, [auth]);
+
+    useEffect(() => {
+        if(isConnected === false && auth.isAuth === true && isReconnection === true) {
+            timeout.current = setTimeout(() => {
+                connect();
+            }, timeoutDelay);
+        } else if(auth.isAuth === false && isConnected === false) {
+            // reset reconnection state
+            setReconnection(false);
+        }
+    }, [auth, isReconnection])
+
 
     const connect = () => {
 
-        console.log('Connection...');
+        console.log('Connection...', auth.isAuth, isReconnection, isConnected, ws.current);
+
         (ws.current) && ws.current.close();
         (timeout.current) && clearTimeout(timeout.current);
+        setReconnection(false);
 
         const uriWebSocket = URI_WS + ':' + WS_PORT;
         ws.current = new WebSocket(uriWebSocket);
@@ -49,14 +75,18 @@ const WsController = () => {
 
     const handleOnOpen = () => {
         dispatch(setConnectionState(STATE.NEED_AUTH));
+        setConnection(true);
         console.log('WebSocket connected');
     }
 
     const handleOnMessage = (e) => {
+
         const msg = JSON.parse(e.data);
         console.log('\t<-',msg);
+
         // processing state
         switch(msg.state) {
+
             case STATE.NEED_AUTH:
                 // need to authenticate
                 authenticate();
@@ -69,21 +99,31 @@ const WsController = () => {
                 break;
 
             case STATE.ACTIVE:
+                // set connection active
                 dispatch(setConnectionState(STATE.ACTIVE));
+                break;
+
+            case STATE.DATA:
+                // data
+                dataProcessing(msg.subscribe, JSON.parse(msg.payload));
                 break;
 
         }
     }
 
     const handleOnClose = () => {
-        // set state in store
+
+        console.log('Close connection...');
+        // set connection state in store
         dispatch(setConnectionState(STATE.DISCONNECTED));
-        console.log('Connection closed');
-        if(reconnection === false) {
-            setReconnection(true);
-            setInitialSubs(true);
-            timeout.current = setTimeout(() => setReconnection(false), timeoutDelay);
-        }
+
+        // set disconnected state in component state
+        setConnection(false);
+        console.log('set reconnection TRUE');
+        setReconnection(true);
+        setInitialSubs(true);
+
+        ws.current = null;
     }
 
     useEffect(() => {
@@ -92,19 +132,23 @@ const WsController = () => {
         }
     }, []);
 
-    useEffect(() => {
-        console.log('Change auth:', auth.isAuth);
-        if(auth.isAuth === true) {
-            connect();
-        } else {
-            disconnect();
-        }
-    }, [auth]);
 
     const authenticate = () => {
         // need to send authentication data
-        console.log('-> Send authenticate token...');
+        console.log('-> Send authenticate token... state: ', STATE.AUTH);
         ws.current.send( JSON.stringify({ state: STATE.AUTH, accessToken: localStorage.accessToken }) );
+    }
+
+    const dataProcessing = (subscribe, payload) => {
+        // processing recieved data
+        switch(subscribe) {
+            case SUB.TRADE_STAT:
+                dispatch(updateTradeStat(payload));
+                break;
+            case SUB.TRADE_INSERT:
+                dispatch(insertTrade(payload));
+                break;
+        }
     }
 
     const refreshAccessToken = async () => {
@@ -122,7 +166,6 @@ const WsController = () => {
 
         const raw = await fetch(uriRefreshToken, requestParams);
         const response = await raw.json();
-        console.log('REF.WS:',response);
 
         signIn(response.user, response.accessToken);
         // resend token
@@ -137,13 +180,13 @@ const WsController = () => {
     }
 
     const disconnect = () => {
-        dispatch(setConnectionState(STATE.DISCONNECTED));
         clearTimeout(timeout.current);
+
+        console.log('[disconnect] isAuth = ', auth.isAuth);
         setReconnection(false);
+
         (ws.current) && ws.current.close();
     }
-
-    console.log('Render WS Controller...');
 
     useEffect(() => {
         if(connectionState === STATE.ACTIVE && isInitialSubs === true) {
@@ -154,8 +197,9 @@ const WsController = () => {
     }, [subs, connectionState]);
 
     useEffect(() => {
+        staticSubs.current = subs;
         if(connectionState === STATE.ACTIVE) subscribe();
-    }, [subs])
+    }, [subs]);
 
 }
 

@@ -9,17 +9,17 @@ const setConnectionState = (connectionState) => {
     }
 }
 
-const subscribeToDataSet = (dataSetArray) => {
+const subscribeToDataSet = (dataSetArray, componentName) => {
     return {
         type: WS_SUBSCRIBE_TO_DATA_SET,
-        payload: dataSetArray
+        payload: {'dataSets': dataSetArray, 'componentName': componentName}
     }
 }
 
-const unsubscribeToDataSet = (dataSetArray) => {
+const unsubscribeToDataSet = (dataSetArray, componentName) => {
     return {
         type: WS_UNSUBSCRIBE_TO_DATA_SET,
-        payload: dataSetArray
+        payload: {'dataSets': dataSetArray, 'componentName': componentName}
     }
 }
 

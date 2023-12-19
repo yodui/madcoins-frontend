@@ -5,3 +5,4 @@ export const WRONG_ACCESS_TOKEN = 3; // wrong access token [ <- server ]
 export const ACTIVE = 4; // active state [ <- server ]
 export const SUBS = 5; // subscribe [ client -> ]
 export const PAUSE = 6; // synchronization on pause [ client -> ]
+export const DATA = 7; // subscription data

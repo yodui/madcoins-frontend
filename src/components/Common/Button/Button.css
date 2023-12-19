@@ -19,10 +19,15 @@
     gap: var(--s);
     align-content: center;
     justify-content: center;
+    align-items: center;
 }
 
 .button.text {
     background: none;
+}
+
+.button.text:hover {
+
 }
 
 .button .loaderWrapper {

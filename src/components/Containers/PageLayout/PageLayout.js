@@ -23,7 +23,8 @@ const PageLayout = ({children}) => {
 
 const WatchTickers = () => {
 
-    useSubscribes([SUB.TEST]);
+    const COMPONENT_NAME = 'WatchTickers';
+    useSubscribes([SUB.TEST], COMPONENT_NAME);
 
     return <div className='watchTickers'>
         <div className='asset'>
