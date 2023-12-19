@@ -7,8 +7,12 @@
     background: var(--color-second);
     display: flex;
     gap: var(--xl);
-    padding: 6px var(--l) 12px var(--l);
+    padding: 6px var(--l) 8px var(--l);
     border-top: 1px solid var(--color-dark);
+}
+
+.bottomBar .name {
+    font-weight: 300;
 }
 
 .bottomBar .barItem {
@@ -20,17 +24,18 @@
 
 .bottomBar .barItem .userState {
     color: var(--color-text);
+    display: inline-flex;
+    align-items: center;
 }
 
 
-.bottomBar .state {
+.bottomBar .value {
     display: inline-flex;
     align-items: center;
 }
 
 .bottomBar .state .bullet {
-    display: inline-flex;
-    margin-right: var(--xs);
+    margin-right: var(--s);
 }
 
 .bottomBar .state.disconnected .bullet, .bottomBar .state.wrongAccessToken .bullet {
@@ -53,7 +58,6 @@
 .bottomBar .bullet {
     width:8px;
     height:8px;
-    margin-top:1px;
     border-radius: 50%;
     display: inline-block;
     background: #f1f1f1;
