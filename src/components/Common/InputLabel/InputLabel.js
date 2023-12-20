@@ -4,6 +4,7 @@ import Icon from '../Icon/Icon';
 import { hasErrors } from '../../../hooks/useForm';
 import Loader from '../Loader/Loader';
 import { isPromise } from '../../../functions/Utilites';
+import AlertItem from '../../Common/AlertItem/AlertItem';
 
 const correctTypes = ['text','password','email','hidden'];
 
@@ -32,44 +33,35 @@ const InputLabel = ({name, label, value, type, autoFocus, rightIcon, leftIcon, o
         setInputType(type);
     }, []);
 
-    const AlertItem = ({itemKey, cls, box, msg}) => {
-        console.log('itemKey_'+itemKey);
-        return <div key={'itemKey_'+itemKey} className={cls.join(' ')}>{box}<span>{msg}</span></div>
-    }
-
     const showAlerts = () => {
+
         if(!Array.isArray(alerts) || !alerts.length) {
             return;
         }
         return <div className='alerts'>
             { alerts.map((a,i) => {
-                console.log(a, i);
-                let cls = ['aItem'];
-                let box;
+                let cls;
+                let iconName;
                 let msg = a.msg;
                 if(a.responseMsg) {
                     msg = a.responseMsg;
                 }
-
                 if(a.view) {
                     if(a.view.default) {
-                        if(a.view.default.className) cls = [...cls, a.view.default.className];
+                        if(a.view.default.className) cls = [a.view.default.className];
                         if(a.loading === false) {
-                            if(a.view.default.iconName) box = <Icon name={a.view.default.iconName} />;
-                        } else {
-                            box = <span className="loaderWrapper"><Loader size="small" /></span>;
+                            if(a.view.default.iconName) iconName = a.view.default.iconName;
                         }
                     }
                     if(a.valid === true && a.view.success) {
-                        if(a.view.success.className) cls = [...cls, a.view.success.className];
-                        if(a.view.success.iconName) box = <Icon name={a.view.success.iconName} />;
+                        if(a.view.success.className) cls = [a.view.success.className];
+                        if(a.view.success.iconName) iconName = a.view.success.iconName;
                     } else if (a.valid === false && a.view.error) {
-                        if(a.view.error.className) cls = [...cls, a.view.error.className];
-                        if(a.view.error.iconName) box = <Icon name={a.view.error.iconName} />;
+                        if(a.view.error.className) cls = [a.view.error.className];
+                        if(a.view.error.iconName) iconName = a.view.error.iconName;
                     }
                 }
-
-                return <AlertItem itemKey={name+'_'+i} cls={cls} box={box} msg={msg}  />
+                return <AlertItem msg={msg} key={name+'_'+i} cls={cls} loading={a.loading} iconName={iconName} />
             }) }
         </div>
     }
