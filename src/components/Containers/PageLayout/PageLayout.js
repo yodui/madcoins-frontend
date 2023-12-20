@@ -12,7 +12,6 @@ const PageLayout = ({children}) => {
     return (
         <div className='pageLayout'>
             <NavMenu />
-            <WatchTickers />
             <div className='contentPage'>
                 {children}
             </div>

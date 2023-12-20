@@ -55,6 +55,7 @@ const uFetch = async (url, options, lastCall = false, timeLimit = 10000) => {
     }
 
     return response;
+
 }
 
 export { uFetch };
