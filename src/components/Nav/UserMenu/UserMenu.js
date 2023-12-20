@@ -68,7 +68,7 @@ const UserMenu = () => {
 
     const handleClickSignIn = () => {
         console.log(auth);
-        
+
     }
 
     const handleClickSignUp = () => {
