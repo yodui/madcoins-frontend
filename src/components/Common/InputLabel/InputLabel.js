@@ -32,12 +32,18 @@ const InputLabel = ({name, label, value, type, autoFocus, rightIcon, leftIcon, o
         setInputType(type);
     }, []);
 
+    const AlertItem = ({itemKey, cls, box, msg}) => {
+        console.log('itemKey_'+itemKey);
+        return <div key={'itemKey_'+itemKey} className={cls.join(' ')}>{box}<span>{msg}</span></div>
+    }
+
     const showAlerts = () => {
         if(!Array.isArray(alerts) || !alerts.length) {
             return;
         }
         return <div className='alerts'>
             { alerts.map((a,i) => {
+                console.log(a, i);
                 let cls = ['aItem'];
                 let box;
                 let msg = a.msg;
@@ -63,7 +69,7 @@ const InputLabel = ({name, label, value, type, autoFocus, rightIcon, leftIcon, o
                     }
                 }
 
-                return <div key={i} className={cls.join(' ')}>{box}<span>{msg}</span></div>
+                return <AlertItem itemKey={name+'_'+i} cls={cls} box={box} msg={msg}  />
             }) }
         </div>
     }
