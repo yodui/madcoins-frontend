@@ -20,7 +20,7 @@
     margin-top: 1px;
     display: flex;
     padding: 0 var(--l);
-    background: var(--color-first);
+    background: var(--color-second);
     height: 32px;
     align-items: center;
 }

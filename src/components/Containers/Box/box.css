@@ -1,8 +1,8 @@
 .box {
     background: var(--color-second);
     box-sizing: border-box;
-    padding: var(--m);
-    border-radius: var(--s);
+    padding: var(--l);
+    border-radius: var(--border-radius);
 }
 
 .noRounded {
