@@ -19,51 +19,46 @@ const timeoutDelay = 4000;
 const WsController = () => {
 
     const dispatch = useDispatch();
+
     const auth = useSelector(state => state.auth);
+
     const connectionState = useSelector(state => state.ws.connectionState);
     const subs = useSelector(state => state.ws.subs);
 
     const [isInitialSubs, setInitialSubs] = useState(true);
-    const [isConnected, setConnection] = useState(false);
-    const [isReconnection, setReconnection] = useState(false);
+    const [isConnected, setConnection] = useState(null);
+    const [needToReconnect, setNeedToReconnect] = useState(null);
 
     const ws = useRef(null);
+    const reconnect = useRef(null);
     const timeout = useRef(null);
 
     const staticSubs = useRef(subs);
 
     useEffect(() => {
-        console.log('Change auth...');
-        console.log(auth.isAuth, isConnected, isReconnection);
-        if(auth.isAuth === true && isConnected === false && isReconnection === false) {
+        if(auth.isAuth === true && ws.current === null) {
             connect();
-        } else if(auth.isAuth === false && isConnected === true) {
-            disconnect();
         } else if(auth.isAuth === false) {
-            // reset reconnection state
-            setReconnection(false);
+            clearTimeout(timeout.current);
+            disconnect();
         }
     }, [auth]);
 
+
     useEffect(() => {
-        if(isConnected === false && auth.isAuth === true && isReconnection === true) {
+        if(isConnected === false && auth.isAuth === true && reconnect.current === true) {
+            reconnect.current = false;
             timeout.current = setTimeout(() => {
                 connect();
             }, timeoutDelay);
-        } else if(auth.isAuth === false && isConnected === false) {
-            // reset reconnection state
-            setReconnection(false);
+        } else if(auth.isAuth === false) {
+            reconnect.current = false;
         }
-    }, [auth, isReconnection])
-
+    }, [isConnected, auth]);
 
     const connect = () => {
-
-        console.log('Connection...', auth.isAuth, isReconnection, isConnected, ws.current);
-
-        (ws.current) && ws.current.close();
-        (timeout.current) && clearTimeout(timeout.current);
-        setReconnection(false);
+        setConnection(null);
+        clearTimeout(timeout.current);
 
         const uriWebSocket = URI_WS + ':' + WS_PORT;
         ws.current = new WebSocket(uriWebSocket);
@@ -74,8 +69,8 @@ const WsController = () => {
     }
 
     const handleOnOpen = () => {
-        dispatch(setConnectionState(STATE.NEED_AUTH));
         setConnection(true);
+        dispatch(setConnectionState(STATE.NEED_AUTH));
         console.log('WebSocket connected');
     }
 
@@ -114,13 +109,13 @@ const WsController = () => {
     const handleOnClose = () => {
 
         console.log('Close connection...');
+        clearTimeout(timeout.current);
+
         // set connection state in store
         dispatch(setConnectionState(STATE.DISCONNECTED));
 
-        // set disconnected state in component state
+        reconnect.current = true;
         setConnection(false);
-        console.log('set reconnection TRUE');
-        setReconnection(true);
         setInitialSubs(true);
 
         ws.current = null;
@@ -180,11 +175,6 @@ const WsController = () => {
     }
 
     const disconnect = () => {
-        clearTimeout(timeout.current);
-
-        console.log('[disconnect] isAuth = ', auth.isAuth);
-        setReconnection(false);
-
         (ws.current) && ws.current.close();
     }
 
