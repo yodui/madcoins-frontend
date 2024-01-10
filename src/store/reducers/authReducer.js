@@ -5,7 +5,6 @@ import { LS_USER } from '../../constants/common';
 const userData = localStorage.getItem(LS_USER);
 let user = null;
 if(userData && userData !== 'undefined') {
-    console.log('UserData:', userData);
     user = JSON.parse(userData);
 }
 
