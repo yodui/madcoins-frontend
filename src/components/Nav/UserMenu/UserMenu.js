@@ -56,8 +56,8 @@ const UserMenu = () => {
 
     const renderAuthMenu = () => {
         return <>
-            <Button variant='text' className='white' leftIcon='login' onClick={handleClickSignIn} label='Sign In' />
-            <Button variant='text' className='white' leftIcon='account' onClick={handleClickSignOut} label='Sign Up' />
+            <Button variant='text' className='white' leftIcon='login' onClick={handleOpenSignInModal} label='Sign In' />
+            <Button variant='text' className='white' leftIcon='account' onClick={handleOpenSignUpModal} label='Sign Up' />
             <ModalSignIn handleClose={handleCloseSignInModal} handleFormSwitcher={switchModals} />
             <ModalSignUp handleClose={handleCloseSignUpModal} handleFormSwitcher={switchModals} />
         </>
