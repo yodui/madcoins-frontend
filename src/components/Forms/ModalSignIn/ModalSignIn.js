@@ -2,58 +2,52 @@ import React, { useState } from 'react';
 import Modal from '../../Common/Modal/Modal';
 import InputLabel from '../../Common/InputLabel/InputLabel';
 import Button from '../../Common/Button/Button';
+
 import './ModalSignIn.css';
+
 import { useForm, registerSubmit } from '../../../hooks/useForm';
 import validatorsSignIn from './validatorsSignIn';
-import Loader from '../../Common/Loader/Loader';
-import { uFetch } from '../../../functions/uFetch';
+import AuthService from '../../../services/auth.service';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../../../store/actions/AuthActions';
 
 import { BACKEND_HOST, BACKEND_PORT, API_URI_SIGNIN } from '../../../constants/common';
 
+import AlertItem from '../../Common/AlertItem/AlertItem';
+
 const ModalSignIn = ({handleClose, handleFormSwitcher}) => {
 
     const dispatch = useDispatch();
 
-    const handleSubmitNative = () => {
-        return new Promise(async (resolve, reject) => {
-            const urlSignIn = BACKEND_HOST + ':' + BACKEND_PORT + API_URI_SIGNIN;
-
-            try {
-                const requestParams = {
-                    method: 'POST',
-                    cache: 'no-cache',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(values)
-                };
-                const objResponse = await uFetch(urlSignIn, requestParams);
-                const response = await objResponse.json();
-
-                // processing
-                if(response.result !== false) {
-                    // save state in to store
-                    dispatch(signIn(response.user, response.accessToken));
-                }
-                resolve(response);
-            } catch(e) {
-                console.log(e);
+    const handleSubmitNative = async (values, dispatch) => {
+        const promise = AuthService.login(values.email, values.password);
+        promise.then((response) => {
+            if(response.result === true) {
+                let a = dispatch(signIn(response.user, response.accessToken));
             }
-
-        })
+        }).catch(
+            (e) => {
+                console.log('Authorisation service error', e);
+            }
+        );
+        return promise;
     }
 
     const showMode = useSelector((state) => state.modal.signIn);
 
-    const {values, handleSubmit, inputProps, submitProps} = useForm(handleSubmitNative, validatorsSignIn);
+    const {values, handleSubmit, inputProps, submitProps, generalAlert} = useForm(handleSubmitNative, validatorsSignIn, dispatch);
+
+    const GeneralAlert = ({msg}) => {
+        if(!msg) return <></>;
+        return <div><AlertItem msg={msg} iconName={'alert-outline'} /></div>;
+    }
 
     return <Modal name='SignIn' className='signInModal' show={showMode} handleClose={handleClose}>
         <form className='signInForm' onSubmit={handleSubmit}>
             <InputLabel label='E-mail' rightIcon='email-outline' { ...inputProps('email') } />
             <InputLabel label='Password' { ...inputProps('password') } type='password' />
+            <GeneralAlert msg={generalAlert} />
             <div className='formAction'>
                 <Button label='SignIn' { ...submitProps() }  variant='primary' leftIcon='login' />
             </div>

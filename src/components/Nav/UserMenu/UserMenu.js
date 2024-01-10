@@ -18,6 +18,8 @@ import { uFetch } from '../../../functions/uFetch';
 import UserProfile from './UserProfile/UserProfile';
 
 
+import AuthService from '../../../services/auth.service';
+
 const UserMenu = () => {
 
     const dispatch = useDispatch();
@@ -34,6 +36,7 @@ const UserMenu = () => {
             dispatch(hideSignUp());
         }
     }, [auth]);
+
 
     const handleOpenSignInModal = () => dispatch(showSignIn());
     const handleCloseSignInModal = () => dispatch(hideSignIn());
@@ -54,7 +57,7 @@ const UserMenu = () => {
     const renderAuthMenu = () => {
         return <>
             <Button variant='text' className='white' leftIcon='login' onClick={handleOpenSignInModal} label='Sign In' />
-            <Button variant='text' className='purple' leftIcon='account' onClick={handleOpenSignUpModal} label='Sign Up' />
+            <Button variant='text' className='white' leftIcon='account' onClick={handleOpenSignUpModal} label='Sign Up' />
             <ModalSignIn handleClose={handleCloseSignInModal} handleFormSwitcher={switchModals} />
             <ModalSignUp handleClose={handleCloseSignUpModal} handleFormSwitcher={switchModals} />
         </>
@@ -65,7 +68,7 @@ const UserMenu = () => {
     }
 
     return <ul className='userMenu'>
-        { auth.isAuth === true ? renderUserProfile() : renderAuthMenu() }
+        { auth.isAuth !== true ? renderAuthMenu() : renderUserProfile() }
     </ul>
 }
 

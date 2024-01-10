@@ -4,6 +4,7 @@ import { LS_USER } from '../../constants/common';
 
 const userData = localStorage.getItem(LS_USER);
 let user = null;
+
 if(userData && userData !== 'undefined') {
     user = JSON.parse(userData);
 }
@@ -14,6 +15,7 @@ export const initialState = {
 };
 
 export function authReducer(state = initialState, action) {
+    //console.log(action);
     switch (action.type) {
         case AUTH_SIGN_IN:
             return { ...state, ...action.payload }
