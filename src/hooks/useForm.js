@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { isPromise, flatCopy } from '../functions/Utilites';
 
-const useForm = (handleSubmitCallback, options) => {
+const useForm = (handleSubmitCallback, options, dispatch) => {
 
     const fields = Object.keys(options);
     // last checked indexes in chain of falidators
@@ -13,6 +13,7 @@ const useForm = (handleSubmitCallback, options) => {
 
     const [validators, setValidators] = useState({});
     const [alerts, setAlerts] = useState({});
+    const [generalAlert, setGeneralAlert] = useState(false);
 
     const [values, setValues] = useState({});
 
@@ -62,6 +63,7 @@ const useForm = (handleSubmitCallback, options) => {
     }
 
     useEffect(() => {
+        setGeneralAlert(false);
         fields.forEach(fieldName => {
             // validatate only if value has been changed
             if(!pValues.current || values[fieldName] != pValues.current[fieldName]) {
@@ -286,18 +288,27 @@ const useForm = (handleSubmitCallback, options) => {
         setFormSubmitted(true);
         const state = validationState();
 
-        if(state.completed && state.valid && !isFormSending) {
-            // disable submit buttons when request is sending
-            setFormSending(true);
-            const response = await handleSubmitCallback();
-            // enable submit buttons
-            if(response.hasOwnProperty('result') && response.result === false) {
-                // parse errors if exists
-                if(response.hasOwnProperty('errors')) {
-                    parseBackendErrors(response.errors);
+        try {
+            if(state.completed && state.valid && !isFormSending) {
+                // disable submit buttons when request is sending
+                setFormSending(true);
+                const response = await handleSubmitCallback(values, dispatch);
+                // enable submit buttons
+                if(response.hasOwnProperty('result') && response.result === false) {
+                    // parse errors if exists
+                    if(response.hasOwnProperty('errors')) {
+                        parseBackendErrors(response.errors);
+                    }
                 }
             }
             setFormSending(false);
+
+        } catch(err) {
+            if(err.hasOwnProperty('message')) {
+                setGeneralAlert(err.message);
+            }
+            setFormSending(false);
+            return false;
         }
     }
 
@@ -353,7 +364,8 @@ const useForm = (handleSubmitCallback, options) => {
         handleSubmit,
         inputProps,
         submitProps,
-        handleReset
+        handleReset,
+        generalAlert
     }
 }
 
