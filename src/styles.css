@@ -23,16 +23,16 @@
 }
 
 html, body {
-    font-family: JBMono;
+    font-family: JBMono, serif;
     font-size: 14px;
-    padding:0;
-    margin:0;
+    padding: 0;
+    margin: 0;
     background: var(--color-dark);
-    color:var(--color-text);
+    color: var(--color-text);
 }
 
 a {
-    color:var(--color-link);
+    color: var(--color-link);
     text-decoration: underline;
     cursor: pointer;
 }
@@ -61,15 +61,32 @@ h1 {
     --border-radius: 3px;
 
     /* New colors: */
-    --color-dark: #041E28;
-    --color-second: #042B3A;
-    --color-third: #0f3e50;
 
-    --color-blue-hover: #075577;
-    --color-border: #1a3a49;
+    --color-highlight: #075577;
 
     --color-text: #ADC7D8;
-    --color-text-second: #6C8D9B;
+    --color-text-hovered: #C9E1F1;
+    --color-text-second: #94A9AB;
+    --color-text-light: #ffffff;
+
+    --color-dark: #041E28;
+    --color-second: #042B3A;
+
+    --color-blue-200: #113746;
+    --color-blue-500: #075577;
+    --color-blue-600: #3590B8;
+
+    --color-negative: #F04656;
+    --color-positive: #14DED8;
+
+    --color-status-online: #25C335;
+    --color-status-mixed: #F2CD0B;
+    --color-status-offline: #F04656;
+
+    /* --- */
+
+    --color-third: #0f3e50;
+    --color-border: #1a3a49;
 
     /* Deprecated colors: */
     --color-first: #232e3d;

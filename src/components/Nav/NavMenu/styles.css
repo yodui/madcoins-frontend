@@ -29,11 +29,16 @@
     border: none;
     user-select: none;
     min-height: 100%;
+    transition: color .2s;
+}
+
+.navMenu a:hover {
+    color: var(--color-text-hovered);
 }
 
 .navMenu a.active {
-    background: #4e237d;/*var(--color-blue-hover);*/
-    color: #af8bd6;
+    background: var(--color-highlight);
+    color: var(--color-text-hovered);
 }
 
 .userMenu {
