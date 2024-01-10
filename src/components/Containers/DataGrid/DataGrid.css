@@ -66,25 +66,26 @@
     min-width: 16px;
 }
 
+.pagination .page:hover {
+    color: var(--color-text-hovered);
+    border-color: var(--color-highlight);
+}
+
 .pagination .page.jump {
     padding: var(--xxs) 6px;
 }
 
 
 .pagination .page.active {
-    border-color: transparent;
-    background: #4e237d;/*var(--color-blue-hover);*/
-    color: #af8bd6;
+    border-color: var(--color-highlight);
+    background-color: var(--color-blue-200);
+    color: var(--color-text-hovered);
 }
 
-.pagination .page:hover {
-    border-color: var(--color-violet);
-    color: var(--color-link);
-}
 
 .pagination .page:active {
-    border-color: var(--color-purple-active);
-    color: var(--color-purple-active);
+    color: var(--color-text-white);
+    border-color: var(--color-blue-600);
 }
 
 .showWindow {
